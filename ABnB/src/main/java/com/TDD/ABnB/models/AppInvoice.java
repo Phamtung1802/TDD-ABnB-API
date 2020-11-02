@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Set;
 
@@ -16,6 +17,11 @@ public class AppInvoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="invoice_id")
     private Long id;
+
+    @Column(name="invoice_date")
+    @NotNull
+    private String date;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")

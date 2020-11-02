@@ -31,6 +31,11 @@ public class AppReview {
     @JoinColumn(name = "user_id")
     private AppUser appUser;
 
+    @Column(name="review_date")
+    @NotNull
+    private String date;
+
+
     @ManyToMany
     @JoinTable(
             name = "app_property_review",
