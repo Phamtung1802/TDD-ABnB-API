@@ -8,6 +8,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
 @Table(name = "property")
@@ -54,6 +55,16 @@ public class AppProperty {
     @DecimalMin("-90.0")
     @DecimalMax("90.0")
     private double latitude;
+
+    @ManyToMany
+    Set<AppInvoice> appInvoiceSet;
+
+    @ManyToMany
+    Set<AppBooking> appBookingSet;
+
+    @ManyToMany
+    Set<AppReview> appReviewSet;
+
 
 
 }
