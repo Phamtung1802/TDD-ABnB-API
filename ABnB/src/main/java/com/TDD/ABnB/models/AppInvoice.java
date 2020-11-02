@@ -18,9 +18,14 @@ public class AppInvoice {
     @Column(name="invoice_id")
     private Long id;
 
-    @Column(name="invoice_date")
+    @Column(name="invoice_checkin_date")
     @NotNull
-    private String date;
+    private String checkinDate;
+
+    @Column(name="invoice_checkout_date")
+    @NotNull
+    private String checkoutDate;
+
 
 
     @ManyToOne

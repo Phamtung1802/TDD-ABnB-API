@@ -18,9 +18,14 @@ public class AppBooking {
     @Column(name="booking_id")
     private Long id;
 
-    @Column(name="booking_date")
+    @Column(name="booking_check_in_date")
     @NotNull
-    private String date;
+    private String checkinDate;
+
+    @Column(name="booking_check_out_date")
+    @NotNull
+    private String checkoutDate;
+
 
     @ManyToOne
     @JoinColumn(name = "user_id")
