@@ -52,6 +52,10 @@ public class AppUser {
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
     private Collection<AppInvoice> appInvoices;
 
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    private Collection<AppProperty> appProperties;
+
+
 
 
 }

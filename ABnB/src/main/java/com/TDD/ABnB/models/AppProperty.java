@@ -65,6 +65,11 @@ public class AppProperty {
     @ManyToMany
     Set<AppReview> appReviewSet;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private AppUser appUser;
+
+
 
 
 }
