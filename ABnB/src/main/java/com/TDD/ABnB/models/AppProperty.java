@@ -78,8 +78,13 @@ public class AppProperty {
     @ManyToMany
     Set<AppBooking> appBookingSet;
 
-    @ManyToMany
-    Set<AppReview> appReviewSet;
+    @NotNull
+    @OneToOne
+    @JoinTable(
+            name = "app_property_review",
+            joinColumns = @JoinColumn(name = "property_id"),
+            inverseJoinColumns = @JoinColumn(name = "review_id"))
+    private AppReview appReview;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
