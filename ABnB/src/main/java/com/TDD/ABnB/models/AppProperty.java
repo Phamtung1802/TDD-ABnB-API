@@ -56,6 +56,7 @@ public class AppProperty {
     @DecimalMax("90.0")
     private double latitude;
 
+
     @ManyToMany
     Set<AppInvoice> appInvoiceSet;
 

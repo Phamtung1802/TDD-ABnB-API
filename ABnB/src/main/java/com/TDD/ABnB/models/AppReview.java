@@ -37,6 +37,7 @@ public class AppReview {
 
 
     @ManyToMany
+    @NotNull
     @JoinTable(
             name = "app_property_review",
             joinColumns = @JoinColumn(name = "property_id"),
