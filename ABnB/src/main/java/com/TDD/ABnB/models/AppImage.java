@@ -17,6 +17,10 @@ public class AppImage {
     @Column(name="image_id")
     private Long id;
 
+    @Column(name="image_URL")
+    private String URL;
+
+
 
     @NotNull
     @ManyToOne
