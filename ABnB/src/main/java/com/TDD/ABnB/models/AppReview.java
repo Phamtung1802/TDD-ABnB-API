@@ -25,7 +25,7 @@ public class AppReview {
     @NotNull
     @Column(name="review_rating")
     @Size(min = 1, max = 5)
-    private String rating;
+    private int rating;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -36,13 +36,10 @@ public class AppReview {
     private String date;
 
 
-    @ManyToMany
     @NotNull
-    @JoinTable(
-            name = "app_property_review",
-            joinColumns = @JoinColumn(name = "property_id"),
-            inverseJoinColumns = @JoinColumn(name = "review_id"))
-    Set<AppProperty> appPropertySet;
+    @ManyToOne
+    @JoinColumn(name = "property_id")
+    private AppProperty appProperty;
 
 
 

@@ -1,4 +1,4 @@
-package com.TDD.ABnB.services.app_review_service.app_booking_service;
+package com.TDD.ABnB.services.app_review_service;
 
 import org.springframework.stereotype.Service;
 

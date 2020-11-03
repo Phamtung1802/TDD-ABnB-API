@@ -8,6 +8,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -25,6 +26,15 @@ public class AppProperty {
     private String name;
 
     @NotNull
+    @Column(name="property_status")
+    private String status;
+
+    @NotNull
+    @Column(name="property_type")
+    private String type;
+
+
+    @NotNull
     @Column(name="property_bedroom")
     private int bedroomNum;
 
@@ -36,6 +46,11 @@ public class AppProperty {
     @Column(name="property_address")
     private String address;
 
+    @NotNull
+    @Column(name="property_description")
+    private String description;
+
+
 
     //kinh do
     @NotNull
@@ -44,17 +59,17 @@ public class AppProperty {
     @DecimalMax("180.0")
     private double longitude;
 
-    @NotNull
-    @Column(name="property_price")
-    private long pricePerDay;
-
-
     //vi do
     @NotNull
     @Column(name="property_latitude")
     @DecimalMin("-90.0")
     @DecimalMax("90.0")
     private double latitude;
+
+    @NotNull
+    @Column(name="property_price")
+    private long pricePerDay;
+
 
 
     @ManyToMany
@@ -63,12 +78,16 @@ public class AppProperty {
     @ManyToMany
     Set<AppBooking> appBookingSet;
 
-    @ManyToMany
-    Set<AppReview> appReviewSet;
+    @OneToMany(mappedBy = "appProperty", cascade = CascadeType.ALL)
+    private Collection<AppReview> appReviews;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private AppUser appUser;
+
+    @OneToMany(mappedBy = "appProperty", cascade = CascadeType.ALL)
+    private Collection<AppImage> appImages;
+
 
 
 
