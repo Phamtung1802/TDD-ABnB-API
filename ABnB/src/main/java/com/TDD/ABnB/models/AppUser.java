@@ -20,7 +20,7 @@ public class AppUser {
     private Long id;
 
     @NotNull
-    @Column(name="user_name")
+    @Column(name="user_name", unique = true)
     private String name;
 
     @NotNull
