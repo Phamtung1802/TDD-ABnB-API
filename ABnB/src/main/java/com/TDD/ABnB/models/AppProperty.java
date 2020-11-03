@@ -8,6 +8,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -25,6 +26,15 @@ public class AppProperty {
     private String name;
 
     @NotNull
+    @Column(name="property_status")
+    private String status;
+
+    @NotNull
+    @Column(name="property_type")
+    private String type;
+
+
+    @NotNull
     @Column(name="property_bedroom")
     private int bedroomNum;
 
@@ -35,6 +45,11 @@ public class AppProperty {
     @NotNull
     @Column(name="property_address")
     private String address;
+
+    @NotNull
+    @Column(name="property_description")
+    private String description;
+
 
 
     //kinh do
@@ -69,6 +84,10 @@ public class AppProperty {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private AppUser appUser;
+
+    @OneToMany(mappedBy = "appProperty", cascade = CascadeType.ALL)
+    private Collection<AppImage> appImages;
+
 
 
 
