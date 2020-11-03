@@ -37,11 +37,8 @@ public class AppReview {
 
 
     @NotNull
-    @OneToOne
-    @JoinTable(
-            name = "app_property_review",
-            joinColumns = @JoinColumn(name = "property_id"),
-            inverseJoinColumns = @JoinColumn(name = "review_id"))
+    @ManyToOne
+    @JoinColumn(name = "property_id")
     private AppProperty appProperty;
 
 

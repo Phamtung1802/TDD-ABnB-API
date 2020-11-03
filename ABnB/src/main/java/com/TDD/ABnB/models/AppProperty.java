@@ -59,17 +59,17 @@ public class AppProperty {
     @DecimalMax("180.0")
     private double longitude;
 
-    @NotNull
-    @Column(name="property_price")
-    private long pricePerDay;
-
-
     //vi do
     @NotNull
     @Column(name="property_latitude")
     @DecimalMin("-90.0")
     @DecimalMax("90.0")
     private double latitude;
+
+    @NotNull
+    @Column(name="property_price")
+    private long pricePerDay;
+
 
 
     @ManyToMany
@@ -78,13 +78,8 @@ public class AppProperty {
     @ManyToMany
     Set<AppBooking> appBookingSet;
 
-    @NotNull
-    @OneToOne
-    @JoinTable(
-            name = "app_property_review",
-            joinColumns = @JoinColumn(name = "property_id"),
-            inverseJoinColumns = @JoinColumn(name = "review_id"))
-    private AppReview appReview;
+    @OneToMany(mappedBy = "appProperty", cascade = CascadeType.ALL)
+    private Collection<AppReview> appReviews;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
