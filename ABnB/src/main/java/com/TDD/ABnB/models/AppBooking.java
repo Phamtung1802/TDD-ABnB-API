@@ -26,12 +26,10 @@ public class AppBooking {
     @NotNull
     private String checkoutDate;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     private AppUser appUser;
 
-    @NotNull
     @ManyToMany
     @JoinTable(
             name = "app_property_booking",

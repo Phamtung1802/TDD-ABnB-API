@@ -27,6 +27,7 @@ public class AppReview {
     @Size(min = 1, max = 5)
     private int rating;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     private AppUser appUser;
