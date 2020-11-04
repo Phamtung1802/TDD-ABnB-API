@@ -1,4 +1,4 @@
-package com.TDD.ABnB.controllers;
+package com.TDD.ABnB.controller;
 
 import com.TDD.ABnB.models.jwt.JwtRequest;
 import com.TDD.ABnB.models.jwt.JwtResponse;
@@ -28,11 +28,8 @@ public class JwtAuthenticationController {
 
     @PostMapping(path = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-        System.out.println("mapping done");
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-        System.out.println(authenticationRequest.getPassword());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
     }
