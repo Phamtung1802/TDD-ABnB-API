@@ -18,29 +18,29 @@ public class AppUserController {
 
     @GetMapping()
     public ResponseEntity<Iterable<AppUser>> showListBooking() {
-        Iterable<AppUser> appReviews=appUserService.findAll();
-        ResponseEntity<Iterable<AppUser>> res=new ResponseEntity<Iterable<AppUser>>(appReviews, HttpStatus.ACCEPTED);
+        Iterable<AppUser> appReviews = appUserService.findAll();
+        ResponseEntity<Iterable<AppUser>> res = new ResponseEntity<Iterable<AppUser>>(appReviews, HttpStatus.ACCEPTED);
         return res;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AppUser> showBooking(@PathVariable("id") Long id) {
-        AppUser appUser= appUserService.findById(id);
-        ResponseEntity<AppUser> res=new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        AppUser appUser = appUserService.findById(id);
+        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
         return res;
     }
 
     @PostMapping()
     public ResponseEntity<AppUser> createBooking(@RequestBody AppUser appUser) {
         appUserService.save(appUser);
-        ResponseEntity<AppUser> res=new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
         return res;
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AppUser> updateBooking(@PathVariable("id") Long id, @RequestBody AppUser appUser) {
         appUser.setId(id);
-        ResponseEntity<AppUser> res=new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
         return res;
     }
 
