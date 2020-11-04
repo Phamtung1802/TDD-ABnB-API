@@ -11,5 +11,5 @@ public interface AppUserService {
 
     AppUser save(AppUser appUser);
 
-    void remove (AppUser appUser);
+    AppUser delete (Long id);
 }
