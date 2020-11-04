@@ -22,7 +22,6 @@ public class AppImage {
 
 
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "property_id")
     private AppProperty appProperty;

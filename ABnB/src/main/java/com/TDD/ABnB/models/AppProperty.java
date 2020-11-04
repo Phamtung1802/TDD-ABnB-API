@@ -81,6 +81,7 @@ public class AppProperty {
     @OneToMany(mappedBy = "appProperty", cascade = CascadeType.ALL)
     private Collection<AppReview> appReviews;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     private AppUser appUser;
