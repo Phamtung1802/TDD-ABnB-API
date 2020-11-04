@@ -5,7 +5,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface AppUserService {
-    public AppUser findFirstByName(String username);
+    AppUser findFirstByName(String name);
 
+    AppUser findById(Long id);
 
+    AppUser save(AppUser appUser);
+
+    void remove (AppUser appUser);
 }

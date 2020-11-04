@@ -1,11 +1,9 @@
 package com.TDD.ABnB.repositories;
 
-import com.TDD.ABnB.models.AppProperty;
+import com.TDD.ABnB.models.AppBooking;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface AppPropertyRepository extends PagingAndSortingRepository<AppProperty,Long> {
+public interface AppBookingRepository extends PagingAndSortingRepository <AppBooking, Long> {
 }
