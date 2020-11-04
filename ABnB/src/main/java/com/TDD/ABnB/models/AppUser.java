@@ -2,6 +2,9 @@ package com.TDD.ABnB.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -54,8 +57,6 @@ public class AppUser {
 
     @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
     private Collection<AppProperty> appProperties;
-
-
 
 
 }
