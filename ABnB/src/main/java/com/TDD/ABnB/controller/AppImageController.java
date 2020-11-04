@@ -15,24 +15,28 @@ public class AppImageController {
     private AppImageService appImageService;
 
     @GetMapping()
-    public Iterable<AppImage> showListImage() {
-       return appImageService.findAll();
+    public ResponseEntity <Iterable<AppImage>> showListImage() {
+        Iterable<AppImage> appImages = appImageService.findAll();
+       return new ResponseEntity<>(appImages, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/{id}")
-    public AppImage showImage(@PathVariable("id") Long id) {
-        return appImageService.findById(id);
+    public ResponseEntity <AppImage> showImage(@PathVariable("id") Long id) {
+        AppImage appImage = appImageService.findById(id);
+        return new ResponseEntity<>(appImage, HttpStatus.ACCEPTED);
     }
 
     @PostMapping()
-    public AppImage createImage(@RequestBody AppImage appImage) {
-        return appImageService.save(appImage);
+    public ResponseEntity <AppImage> createImage(@RequestBody AppImage appImage) {
+         appImageService.save(appImage);
+         return new ResponseEntity<>(appImage, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/{id}")
-    public AppImage updateImage(@PathVariable("id") Long id, @RequestBody AppImage appImage) {
-        appImage.setId(id);
-        return appImageService.save(appImage);
+    public ResponseEntity <AppImage> updateImage(@PathVariable("id") Long id, @RequestBody AppImage appImage) {
+         appImage.setId(id);
+         appImageService.save(appImage);
+         return new ResponseEntity<>(appImage, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")

@@ -15,24 +15,28 @@ public class AppInvoiceController {
     private AppInvoiceService appInvoiceService;
 
     @GetMapping()
-    public Iterable<AppInvoice> showListInvoice() {
-        return appInvoiceService.findAll();
+    public ResponseEntity <Iterable<AppInvoice>> showListInvoice() {
+        Iterable<AppInvoice> appInvoices = appInvoiceService.findAll();
+        return new ResponseEntity<>(appInvoices, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/{id}")
-    public AppInvoice showInvoice(@PathVariable("id") Long id) {
-        return appInvoiceService.findById(id);
+    public ResponseEntity <AppInvoice> showInvoice(@PathVariable("id") Long id) {
+        AppInvoice appInvoice = appInvoiceService.findById(id);
+        return new ResponseEntity<>(appInvoice, HttpStatus.ACCEPTED);
     }
 
     @PostMapping()
-    public AppInvoice createInvoice(@RequestBody AppInvoice appInvoice) {
-        return appInvoiceService.save(appInvoice);
+    public ResponseEntity <AppInvoice> createInvoice(@RequestBody AppInvoice appInvoice) {
+         appInvoiceService.save(appInvoice);
+         return new ResponseEntity<>(appInvoice, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/{id}")
-    public AppInvoice updateInvoice(@PathVariable("id") Long id, @RequestBody AppInvoice appInvoice) {
+    public ResponseEntity <AppInvoice> updateInvoice(@PathVariable("id") Long id, @RequestBody AppInvoice appInvoice) {
         appInvoice.setId(id);
-        return appInvoiceService.save(appInvoice);
+        appInvoiceService.save(appInvoice);
+        return new ResponseEntity<>(appInvoice, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")

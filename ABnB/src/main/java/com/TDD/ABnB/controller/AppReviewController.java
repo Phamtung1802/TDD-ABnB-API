@@ -15,24 +15,29 @@ public class AppReviewController {
     private AppReviewService appReviewService;
 
     @GetMapping()
-    public Iterable<AppReview> showListReview() {
-        return appReviewService.findAll();
+    public ResponseEntity <Iterable<AppReview>> showListReview() {
+        Iterable<AppReview> appReviews = appReviewService.findAll();
+        return new ResponseEntity<>(appReviews, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/{id}")
-    public AppReview showReview(@PathVariable("id") Long id) {
-        return appReviewService.findById(id);
+    public ResponseEntity <AppReview> showReview(@PathVariable("id") Long id) {
+        AppReview appReview = appReviewService.findById(id);
+         return new ResponseEntity<>(appReview, HttpStatus.ACCEPTED);
     }
 
     @PostMapping()
-    public AppReview createReview(@RequestBody AppReview appReview) {
-        return appReviewService.save(appReview);
+    public ResponseEntity <AppReview> createReview(@RequestBody AppReview appReview) {
+        appReviewService.save(appReview);
+        return new ResponseEntity<>(appReview, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/{id}")
-    public AppReview updateReview(@PathVariable("id") Long id, @RequestBody AppReview appReview) {
+    public ResponseEntity<AppReview> updateReview(@PathVariable("id") Long id, @RequestBody AppReview appReview) {
         appReview.setId(id);
-        return appReviewService.save(appReview);
+        appReviewService.save(appReview);
+        return new ResponseEntity<>(appReview, HttpStatus.ACCEPTED);
+
     }
 
     @DeleteMapping("/{id}")

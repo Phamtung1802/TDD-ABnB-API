@@ -29,6 +29,7 @@ public class AppUserController {
 
     @PostMapping
     public ResponseEntity <AppUser> createUser(@RequestBody AppUser appUser) {
+        appUserService.save(appUser);
         return new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
     }
 

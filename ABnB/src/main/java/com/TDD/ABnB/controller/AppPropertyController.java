@@ -15,25 +15,30 @@ public class AppPropertyController {
     private AppPropertyService appPropertyService;
 
     @GetMapping()
-    public Iterable<AppProperty> showListProperty() {
-        return appPropertyService.findAll();
+    public ResponseEntity <Iterable<AppProperty>> showListProperty() {
+        Iterable<AppProperty> appProperties = appPropertyService.findAll();
+        return new ResponseEntity<>(appProperties, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/{id}")
-    public AppProperty showProperty(@PathVariable("id") Long id) {
-        return appPropertyService.findById(id);
+    public ResponseEntity <AppProperty> showProperty(@PathVariable("id") Long id) {
+        AppProperty appProperty = appPropertyService.findById(id);
+        return new ResponseEntity<>(appProperty, HttpStatus.ACCEPTED);
     }
 
 
     @PostMapping()
-    public AppProperty createProperty(@RequestBody AppProperty appProperty) {
-        return appPropertyService.save(appProperty);
+    public ResponseEntity <AppProperty> createProperty(@RequestBody AppProperty appProperty) {
+         appPropertyService.save(appProperty);
+         return new ResponseEntity<>(appProperty, HttpStatus.ACCEPTED);
+
     }
 
     @PutMapping("/{id}")
-    public AppProperty updateProperty(@PathVariable("id") Long id, @RequestBody AppProperty appProperty) {
+    public ResponseEntity <AppProperty> updateProperty(@PathVariable("id") Long id, @RequestBody AppProperty appProperty) {
         appProperty.setId(id);
-        return appPropertyService.save(appProperty);
+         appPropertyService.save(appProperty);
+         return new ResponseEntity<>(appProperty, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")

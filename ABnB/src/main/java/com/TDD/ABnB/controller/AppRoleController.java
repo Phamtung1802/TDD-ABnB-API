@@ -28,6 +28,7 @@ public class AppRoleController {
 
     @PostMapping
     public ResponseEntity <AppRole> createRole(@RequestBody AppRole appRole) {
+        appRoleService.save(appRole);
         return new ResponseEntity<>(appRole, HttpStatus.ACCEPTED);
     }
 
