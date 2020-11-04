@@ -11,5 +11,5 @@ public interface AppInvoiceService {
 
     AppInvoice save(AppInvoice appInvoice);
 
-    void remove(AppInvoice appInvoice);
+    void delete(AppInvoice appInvoice);
 }

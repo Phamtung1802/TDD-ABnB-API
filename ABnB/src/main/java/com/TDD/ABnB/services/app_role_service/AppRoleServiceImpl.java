@@ -27,7 +27,7 @@ public class AppRoleServiceImpl implements AppRoleService {
     }
 
     @Override
-    public void remove(AppRole appRole) {
+    public void delete(AppRole appRole) {
         appRoleRepository.delete(appRole);
 
     }

@@ -13,6 +13,6 @@ public interface AppPropertyService {
 
     AppProperty save(AppProperty appProperty);
 
-    void remove(AppProperty appProperty);
+    void delete(AppProperty appProperty);
 
 }

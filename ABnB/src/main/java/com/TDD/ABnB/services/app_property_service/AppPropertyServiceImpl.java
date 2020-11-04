@@ -29,7 +29,7 @@ public class AppPropertyServiceImpl implements AppPropertyService {
     }
 
     @Override
-    public void remove(AppProperty appProperty) {
+    public void delete(AppProperty appProperty) {
         appPropertyRepository.delete(appProperty);
     }
 

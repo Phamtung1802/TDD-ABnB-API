@@ -29,7 +29,7 @@ public class AppImageServiceImpl implements AppImageService{
     }
 
     @Override
-    public void remove(AppImage appImage) {
+    public void delete(AppImage appImage) {
         appImageRepository.delete(appImage);
     }
 }

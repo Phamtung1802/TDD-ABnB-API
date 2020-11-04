@@ -27,7 +27,7 @@ public class AppInvoiceServiceImpl implements AppInvoiceService {
     }
 
     @Override
-    public void remove(AppInvoice appInvoice) {
+    public void delete(AppInvoice appInvoice) {
         appInvoiceRepository.delete(appInvoice);
     }
 }

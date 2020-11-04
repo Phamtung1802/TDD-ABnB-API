@@ -27,7 +27,7 @@ public class AppReviewServiceImpl implements AppReviewService {
     }
 
     @Override
-    public void remove(AppReview appReview) {
+    public void delete(AppReview appReview) {
             appReviewRepository.delete(appReview);
     }
 }

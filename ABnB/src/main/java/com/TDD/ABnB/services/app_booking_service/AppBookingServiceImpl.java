@@ -27,7 +27,7 @@ public class AppBookingServiceImpl implements AppBookingService {
     }
 
     @Override
-    public void remove(AppBooking appBooking) {
+    public void delete(AppBooking appBooking) {
         appBookingRepository.delete(appBooking);
     }
 }

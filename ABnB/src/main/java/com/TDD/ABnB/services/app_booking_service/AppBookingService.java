@@ -11,5 +11,5 @@ public interface AppBookingService {
 
     AppBooking save(AppBooking appBooking);
 
-    void remove(AppBooking appBooking);
+    void delete(AppBooking appBooking);
 }

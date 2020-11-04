@@ -1,8 +1,11 @@
 package com.TDD.ABnB.controller;
 
+import com.TDD.ABnB.models.AppImage;
 import com.TDD.ABnB.models.AppInvoice;
 import com.TDD.ABnB.services.app_invoice_service.AppInvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,30 +16,38 @@ public class AppInvoiceController {
     private AppInvoiceService appInvoiceService;
 
     @GetMapping()
-    public Iterable<AppInvoice> showListInvoice() {
-        return appInvoiceService.findAll();
+    public ResponseEntity<Iterable<AppInvoice>> showListInvoice() {
+        Iterable<AppInvoice> appInvoices=appInvoiceService.findAll();
+        ResponseEntity<Iterable<AppInvoice>> res=new ResponseEntity<Iterable<AppInvoice>>(appInvoices, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @GetMapping("/{id}")
-    public AppInvoice showInvoice(@PathVariable("id") Long id) {
-        return appInvoiceService.findById(id);
+    public ResponseEntity<AppInvoice> showInvoice(@PathVariable("id") Long id) {
+        AppInvoice appInvoice= appInvoiceService.findById(id);
+        ResponseEntity<AppInvoice> res=new ResponseEntity<AppInvoice>(appInvoice, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @PostMapping()
-    public AppInvoice createInvoice(@RequestBody AppInvoice appInvoice) {
-        return appInvoiceService.save(appInvoice);
+    public ResponseEntity<AppInvoice> createInvoice(@RequestBody AppInvoice appInvoice) {
+        appInvoiceService.save(appInvoice);
+        ResponseEntity<AppInvoice> res=new ResponseEntity<AppInvoice>(appInvoice, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @PutMapping("/{id}")
-    public AppInvoice updateInvoice(@PathVariable("id") Long id, @RequestBody AppInvoice appInvoice) {
+    public ResponseEntity<AppInvoice> updateInvoice(@PathVariable("id") Long id, @RequestBody AppInvoice appInvoice) {
         appInvoice.setId(id);
-        return appInvoiceService.save(appInvoice);
+        appInvoiceService.save(appInvoice);
+        ResponseEntity<AppInvoice> res=new ResponseEntity<AppInvoice>(appInvoice, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @DeleteMapping("/{id}")
     public  void deleteInvoice(@PathVariable("id") Long id) {
         AppInvoice appInvoice = appInvoiceService.findById(id);
-        appInvoiceService.remove(appInvoice);
+        appInvoiceService.delete(appInvoice);
     }
 
 

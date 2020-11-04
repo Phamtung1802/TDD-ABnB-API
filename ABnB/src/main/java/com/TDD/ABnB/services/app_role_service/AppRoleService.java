@@ -11,5 +11,5 @@ public interface AppRoleService {
 
     AppRole save(AppRole appRole);
 
-    void remove(AppRole appRole);
+    void delete(AppRole appRole);
 }

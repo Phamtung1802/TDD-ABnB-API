@@ -1,8 +1,12 @@
 package com.TDD.ABnB.controller;
 
 import com.TDD.ABnB.models.AppBooking;
+import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.services.app_booking_service.AppBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,29 +17,36 @@ public class AppBookingController {
     private AppBookingService appBookingService;
 
     @GetMapping()
-    public Iterable<AppBooking> showListBooking() {
-        return appBookingService.findAll();
+    public ResponseEntity<Iterable<AppBooking>> showListBooking() {
+        Iterable<AppBooking> appBookings=appBookingService.findAll();
+        ResponseEntity<Iterable<AppBooking>> res=new ResponseEntity<Iterable<AppBooking>>(appBookings, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @GetMapping("/{id}")
-    public AppBooking showBooking(@PathVariable("id") Long id) {
-        return appBookingService.findById(id);
+    public ResponseEntity<AppBooking> showBooking(@PathVariable("id") Long id) {
+        AppBooking appBooking= appBookingService.findById(id);
+        ResponseEntity<AppBooking> res=new ResponseEntity<AppBooking>(appBooking, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @PostMapping()
-    public AppBooking createBooking(@RequestBody AppBooking appBooking) {
-        return appBookingService.save(appBooking);
+    public ResponseEntity<AppBooking> createBooking(@RequestBody AppBooking appBooking) {
+        appBookingService.save(appBooking);
+        ResponseEntity<AppBooking> res=new ResponseEntity<AppBooking>(appBooking, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @PutMapping("/{id}")
-    public AppBooking updateBooking(@PathVariable("id") Long id, @RequestBody AppBooking appBooking) {
+    public ResponseEntity<AppBooking> updateBooking(@PathVariable("id") Long id, @RequestBody AppBooking appBooking) {
         appBooking.setId(id);
-        return appBookingService.save(appBooking);
+        ResponseEntity<AppBooking> res=new ResponseEntity<AppBooking>(appBooking, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @DeleteMapping("/{id}")
     public void deleteBooking(@PathVariable("id") Long id) {
         AppBooking appBooking = appBookingService.findById(id);
-        appBookingService.remove(appBooking);
+        appBookingService.delete(appBooking);
     }
 }
