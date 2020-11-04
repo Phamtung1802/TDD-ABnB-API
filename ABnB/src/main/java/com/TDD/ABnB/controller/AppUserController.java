@@ -2,7 +2,6 @@ package com.TDD.ABnB.controller;
 
 
 import com.TDD.ABnB.models.AppUser;
-import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.services.app_user_service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,8 +25,13 @@ public class AppUserController {
     @GetMapping("/{id}")
     public ResponseEntity<AppUser> showBooking(@PathVariable("id") Long id) {
         AppUser appUser = appUserService.findById(id);
-        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
-        return res;
+        if (appUserService.findById(id) != null) {
+            return new ResponseEntity<>(appUser, HttpStatus.ACCEPTED);
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
+//        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+//        return res;
     }
 
     @PostMapping()
