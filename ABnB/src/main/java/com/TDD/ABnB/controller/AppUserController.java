@@ -2,6 +2,7 @@ package com.TDD.ABnB.controller;
 
 
 import com.TDD.ABnB.models.AppUser;
+import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.services.app_user_service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,33 +17,36 @@ public class AppUserController {
     private AppUserService appUserService;
 
     @GetMapping()
-    public ResponseEntity<AppUser> showUser(String name) {
-        AppUser appUser = appUserService.findFirstByName(name);
-        return new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+    public ResponseEntity<Iterable<AppUser>> showListBooking() {
+        Iterable<AppUser> appReviews=appUserService.findAll();
+        ResponseEntity<Iterable<AppUser>> res=new ResponseEntity<Iterable<AppUser>>(appReviews, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AppUser> showUserById(@PathVariable("id") Long id) {
-        AppUser appUser = appUserService.findById(id);
-        return new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+    public ResponseEntity<AppUser> showBooking(@PathVariable("id") Long id) {
+        AppUser appUser= appUserService.findById(id);
+        ResponseEntity<AppUser> res=new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        return res;
     }
 
-    @PostMapping
-    public ResponseEntity <AppUser> createUser(@RequestBody AppUser appUser) {
+    @PostMapping()
+    public ResponseEntity<AppUser> createBooking(@RequestBody AppUser appUser) {
         appUserService.save(appUser);
-        return new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        ResponseEntity<AppUser> res=new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity <AppUser> updateUser(@PathVariable("id") Long id, @RequestBody AppUser appUser) {
+    public ResponseEntity<AppUser> updateBooking(@PathVariable("id") Long id, @RequestBody AppUser appUser) {
         appUser.setId(id);
-        appUserService.save(appUser);
-        return new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        ResponseEntity<AppUser> res=new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<AppUser>  deleteUser(@PathVariable("id") Long id) {
-        AppUser appUser = appUserService.delete(id);
-        return new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+    public void deleteBooking(@PathVariable("id") Long id) {
+        AppUser appUser = appUserService.findById(id);
+        appUserService.delete(appUser);
     }
 }

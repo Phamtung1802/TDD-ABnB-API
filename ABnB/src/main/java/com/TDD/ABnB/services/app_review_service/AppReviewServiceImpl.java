@@ -27,9 +27,7 @@ public class AppReviewServiceImpl implements AppReviewService {
     }
 
     @Override
-    public AppReview delete(Long id) {
-          AppReview appReview = appReviewRepository.findById(id).get();
-          appReviewRepository.delete(appReview);
-          return appReview;
+    public void delete(AppReview appReview) {
+            appReviewRepository.delete(appReview);
     }
 }

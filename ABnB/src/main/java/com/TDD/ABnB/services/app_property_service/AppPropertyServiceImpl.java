@@ -28,14 +28,12 @@ public class AppPropertyServiceImpl implements AppPropertyService {
         return appPropertyRepository.save(appProperty);
     }
 
-    public List<AppProperty> findAllByAddress(String address) {
-        return appPropertyRepository.findAllByAddress(address);
+    @Override
+    public void delete(AppProperty appProperty) {
+        appPropertyRepository.delete(appProperty);
     }
 
-    @Override
-    public AppProperty delete(Long id) {
-        AppProperty appProperty = appPropertyRepository.findById(id).get();
-        appPropertyRepository.delete(appProperty);
-        return appProperty;
+    public List<AppProperty> findAllByAddress(String address) {
+        return appPropertyRepository.findAllByAddress(address);
     }
 }

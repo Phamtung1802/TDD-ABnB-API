@@ -1,6 +1,7 @@
 package com.TDD.ABnB.controller;
 
 import com.TDD.ABnB.models.AppRole;
+import com.TDD.ABnB.models.AppRole;
 import com.TDD.ABnB.services.app_role_service.AppRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,33 +16,36 @@ public class AppRoleController {
     private AppRoleService appRoleService;
 
     @GetMapping()
-    public ResponseEntity<Iterable<AppRole>> showListRole() {
-        Iterable<AppRole> appRoles= appRoleService.findAll();
-        return new ResponseEntity<>(appRoles, HttpStatus.ACCEPTED);
+    public ResponseEntity<Iterable<AppRole>> showListBooking() {
+        Iterable<AppRole> appRoles=appRoleService.findAll();
+        ResponseEntity<Iterable<AppRole>> res=new ResponseEntity<Iterable<AppRole>>(appRoles, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity <AppRole> showRole(@PathVariable("id") Long id) {
-        AppRole appRole = appRoleService.findById(id);
-        return new ResponseEntity<AppRole>(appRole, HttpStatus.ACCEPTED);
+    public ResponseEntity<AppRole> showBooking(@PathVariable("id") Long id) {
+        AppRole appRole= appRoleService.findById(id);
+        ResponseEntity<AppRole> res=new ResponseEntity<AppRole>(appRole, HttpStatus.ACCEPTED);
+        return res;
     }
 
-    @PostMapping
-    public ResponseEntity <AppRole> createRole(@RequestBody AppRole appRole) {
+    @PostMapping()
+    public ResponseEntity<AppRole> createBooking(@RequestBody AppRole appRole) {
         appRoleService.save(appRole);
-        return new ResponseEntity<>(appRole, HttpStatus.ACCEPTED);
+        ResponseEntity<AppRole> res=new ResponseEntity<AppRole>(appRole, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AppRole> updateRole(@PathVariable("id") Long id, @RequestBody AppRole appRole) {
+    public ResponseEntity<AppRole> updateBooking(@PathVariable("id") Long id, @RequestBody AppRole appRole) {
         appRole.setId(id);
-        appRoleService.save(appRole);
-        return new ResponseEntity<>(appRole, HttpStatus.ACCEPTED);
+        ResponseEntity<AppRole> res=new ResponseEntity<AppRole>(appRole, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<AppRole> deleteRole(@PathVariable("id") Long id) {
-        AppRole appRole = appRoleService.delete(id);
-        return new ResponseEntity<AppRole>(appRole, HttpStatus.ACCEPTED);
+    public void deleteBooking(@PathVariable("id") Long id) {
+        AppRole appRole = appRoleService.findById(id);
+        appRoleService.delete(appRole);
     }
 }

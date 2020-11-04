@@ -27,9 +27,7 @@ public class AppInvoiceServiceImpl implements AppInvoiceService {
     }
 
     @Override
-    public AppInvoice delete(Long id) {
-        AppInvoice appInvoice = appInvoiceRepository.findById(id).get();
+    public void delete(AppInvoice appInvoice) {
         appInvoiceRepository.delete(appInvoice);
-        return appInvoice;
     }
 }

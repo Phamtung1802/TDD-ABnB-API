@@ -1,5 +1,6 @@
 package com.TDD.ABnB.controller;
 
+import com.TDD.ABnB.models.AppBooking;
 import com.TDD.ABnB.models.AppImage;
 import com.TDD.ABnB.services.app_image_service.AppImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,33 +16,36 @@ public class AppImageController {
     private AppImageService appImageService;
 
     @GetMapping()
-    public ResponseEntity <Iterable<AppImage>> showListImage() {
-        Iterable<AppImage> appImages = appImageService.findAll();
-       return new ResponseEntity<>(appImages, HttpStatus.ACCEPTED);
+    public ResponseEntity<Iterable<AppImage>> showListImage() {
+        Iterable<AppImage> appImages=appImageService.findAll();
+        ResponseEntity<Iterable<AppImage>> res=new ResponseEntity<Iterable<AppImage>>(appImages, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity <AppImage> showImage(@PathVariable("id") Long id) {
-        AppImage appImage = appImageService.findById(id);
-        return new ResponseEntity<>(appImage, HttpStatus.ACCEPTED);
+    public ResponseEntity<AppImage> showImage(@PathVariable("id") Long id) {
+        AppImage appImage= appImageService.findById(id);
+        ResponseEntity<AppImage> res=new ResponseEntity<AppImage>(appImage, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @PostMapping()
-    public ResponseEntity <AppImage> createImage(@RequestBody AppImage appImage) {
-         appImageService.save(appImage);
-         return new ResponseEntity<>(appImage, HttpStatus.ACCEPTED);
+    public ResponseEntity<AppImage> createImage(@RequestBody AppImage appImage) {
+        appImageService.save(appImage);
+        ResponseEntity<AppImage> res=new ResponseEntity<AppImage>(appImage, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity <AppImage> updateImage(@PathVariable("id") Long id, @RequestBody AppImage appImage) {
-         appImage.setId(id);
-         appImageService.save(appImage);
-         return new ResponseEntity<>(appImage, HttpStatus.ACCEPTED);
+    public ResponseEntity<AppImage> updateImage(@PathVariable("id") Long id, @RequestBody AppImage appImage) {
+        appImage.setId(id);
+        ResponseEntity<AppImage> res=new ResponseEntity<AppImage>(appImage, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<AppImage> deleteImage(@PathVariable("id") Long id) {
-        AppImage appImage = appImageService.delete(id);
-        return new ResponseEntity<AppImage>(appImage, HttpStatus.ACCEPTED);
+    public void deleteImage(@PathVariable("id") Long id) {
+        AppImage appImage = appImageService.findById(id);
+        appImageService.delete(appImage);
     }
 }

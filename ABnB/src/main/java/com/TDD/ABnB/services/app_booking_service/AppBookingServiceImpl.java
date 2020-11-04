@@ -27,9 +27,7 @@ public class AppBookingServiceImpl implements AppBookingService {
     }
 
     @Override
-    public AppBooking delete(Long id) {
-       AppBooking appBooking = appBookingRepository.findById(id).get();
-       appBookingRepository.delete(appBooking);
-       return appBooking;
+    public void delete(AppBooking appBooking) {
+        appBookingRepository.delete(appBooking);
     }
 }

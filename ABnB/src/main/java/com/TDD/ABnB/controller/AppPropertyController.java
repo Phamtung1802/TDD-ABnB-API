@@ -1,5 +1,6 @@
 package com.TDD.ABnB.controller;
 
+import com.TDD.ABnB.models.AppInvoice;
 import com.TDD.ABnB.models.AppProperty;
 import com.TDD.ABnB.services.app_property_service.AppPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,35 +16,39 @@ public class AppPropertyController {
     private AppPropertyService appPropertyService;
 
     @GetMapping()
-    public ResponseEntity <Iterable<AppProperty>> showListProperty() {
-        Iterable<AppProperty> appProperties = appPropertyService.findAll();
-        return new ResponseEntity<>(appProperties, HttpStatus.ACCEPTED);
+    public ResponseEntity<Iterable<AppProperty>> showListProperty() {
+        Iterable<AppProperty> appProperties=appPropertyService.findAll();
+        ResponseEntity<Iterable<AppProperty>> res=new ResponseEntity<Iterable<AppProperty>>(appProperties, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity <AppProperty> showProperty(@PathVariable("id") Long id) {
-        AppProperty appProperty = appPropertyService.findById(id);
-        return new ResponseEntity<>(appProperty, HttpStatus.ACCEPTED);
+    public ResponseEntity<AppProperty> showProperty(@PathVariable("id") Long id) {
+        AppProperty appProperty= appPropertyService.findById(id);
+        ResponseEntity<AppProperty> res=new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
+        return res;
+
     }
 
 
     @PostMapping()
-    public ResponseEntity <AppProperty> createProperty(@RequestBody AppProperty appProperty) {
-         appPropertyService.save(appProperty);
-         return new ResponseEntity<>(appProperty, HttpStatus.ACCEPTED);
-
+    public ResponseEntity<AppProperty> createProperty(@RequestBody AppProperty appProperty) {
+        appPropertyService.save(appProperty);
+        ResponseEntity<AppProperty> res=new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity <AppProperty> updateProperty(@PathVariable("id") Long id, @RequestBody AppProperty appProperty) {
+    public ResponseEntity<AppProperty> updateProperty(@PathVariable("id") Long id, @RequestBody AppProperty appProperty) {
         appProperty.setId(id);
-         appPropertyService.save(appProperty);
-         return new ResponseEntity<>(appProperty, HttpStatus.ACCEPTED);
+        appPropertyService.save(appProperty);
+        ResponseEntity<AppProperty> res=new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
+        return res;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<AppProperty> deleteProperty(@PathVariable("id") Long id ) {
-        AppProperty appProperty = appPropertyService.delete(id);
-        return new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
+    public void deleteProperty(@PathVariable("id") Long id ) {
+        AppProperty appProperty = appPropertyService.findById(id);
+        appPropertyService.delete(appProperty);
     }
 }

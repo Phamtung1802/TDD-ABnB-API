@@ -13,8 +13,6 @@ public interface AppPropertyService {
 
     AppProperty save(AppProperty appProperty);
 
-    public Iterable<AppProperty> findAllByAddress(String address);
-
-    AppProperty delete(Long id);
+    void delete(AppProperty appProperty);
 
 }

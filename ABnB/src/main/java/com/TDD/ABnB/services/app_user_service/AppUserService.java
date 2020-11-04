@@ -1,5 +1,6 @@
 package com.TDD.ABnB.services.app_user_service;
 
+import com.TDD.ABnB.models.AppBooking;
 import com.TDD.ABnB.models.AppUser;
 import org.springframework.stereotype.Service;
 
@@ -11,5 +12,8 @@ public interface AppUserService {
 
     AppUser save(AppUser appUser);
 
-    AppUser delete (Long id);
+    void delete (AppUser appUser);
+
+    public Iterable<AppUser> findAll();
+
 }

@@ -11,5 +11,5 @@ public interface AppReviewService {
 
     AppReview save(AppReview appReview);
 
-    AppReview delete(Long id);
+    void delete(AppReview appReview);
 }
