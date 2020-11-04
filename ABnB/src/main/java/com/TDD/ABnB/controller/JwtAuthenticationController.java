@@ -28,8 +28,13 @@ public class JwtAuthenticationController {
 
     @PostMapping(path = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+        System.out.println("request name: "+authenticationRequest.getUsername());
+        System.out.println("request password: "+authenticationRequest.getPassword());
+
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        System.out.println("Correct name: "+userDetails.getUsername());
+        System.out.println("Correct password: "+userDetails.getPassword());
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
     }
