@@ -7,16 +7,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AppUserServiceImpl implements AppUserService {
-    @Autowired
-    AppUserRepository appUserRepository;
 
-    public AppUser findFirstByName(String username){
-       return appUserRepository.findFirstByName(username);
+    @Autowired
+    private AppUserRepository appUserRepository;
+
+    @Override
+    public AppUser findFirstByName(String name) {
+        return appUserRepository.findFirstByName(name);
     }
 
     @Override
     public AppUser findById(Long id) {
-        return appUserRepository.findFirstById(id);
+        return appUserRepository.findById(id).get();
     }
 
     @Override
@@ -25,9 +27,7 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public AppUser delete(Long id) {
-        AppUser appUser = appUserRepository.findById(id).get();
-        appUserRepository.delete(appUser);
-        return appUser;
+    public void remove(AppUser appUser) {
+            appUserRepository.delete(appUser);
     }
 }
