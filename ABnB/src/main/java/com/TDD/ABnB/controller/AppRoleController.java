@@ -3,6 +3,8 @@ package com.TDD.ABnB.controller;
 import com.TDD.ABnB.models.AppRole;
 import com.TDD.ABnB.services.app_role_service.AppRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,29 +15,32 @@ public class AppRoleController {
     private AppRoleService appRoleService;
 
     @GetMapping()
-    public Iterable <AppRole> showListRole() {
-        return appRoleService.findAll();
+    public ResponseEntity<Iterable<AppRole>> showListRole() {
+        Iterable<AppRole> appRoles= appRoleService.findAll();
+        return new ResponseEntity<>(appRoles, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/{id}")
-    public AppRole showRole(@PathVariable("id") Long id) {
-        return appRoleService.findById(id);
+    public ResponseEntity <AppRole> showRole(@PathVariable("id") Long id) {
+        AppRole appRole = appRoleService.findById(id);
+        return new ResponseEntity<AppRole>(appRole, HttpStatus.ACCEPTED);
     }
 
     @PostMapping
-    public AppRole createRole(@RequestBody AppRole appRole) {
-        return appRoleService.save(appRole);
+    public ResponseEntity <AppRole> createRole(@RequestBody AppRole appRole) {
+        return new ResponseEntity<>(appRole, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/{id}")
-    public AppRole updateRole(@PathVariable("id") Long id, @RequestBody AppRole appRole) {
+    public ResponseEntity<AppRole> updateRole(@PathVariable("id") Long id, @RequestBody AppRole appRole) {
         appRole.setId(id);
-        return appRoleService.save(appRole);
+        appRoleService.save(appRole);
+        return new ResponseEntity<>(appRole, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteRole(@PathVariable("id") Long id) {
-        AppRole appRole = appRoleService.findById(id);
-        appRoleService.remove(appRole);
+    public ResponseEntity<AppRole> deleteRole(@PathVariable("id") Long id) {
+        AppRole appRole = appRoleService.delete(id);
+        return new ResponseEntity<AppRole>(appRole, HttpStatus.ACCEPTED);
     }
 }

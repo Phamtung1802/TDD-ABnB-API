@@ -3,6 +3,8 @@ package com.TDD.ABnB.controller;
 import com.TDD.ABnB.models.AppReview;
 import com.TDD.ABnB.services.app_review_service.AppReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,8 +36,8 @@ public class AppReviewController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteReview(@PathVariable("id") Long id) {
-        AppReview appReview = appReviewService.findById(id);
-        appReviewService.remove(appReview);
+    public ResponseEntity<AppReview> deleteReview(@PathVariable("id") Long id) {
+        AppReview appReview = appReviewService.delete(id);
+        return new ResponseEntity<AppReview>(appReview, HttpStatus.ACCEPTED);
     }
 }

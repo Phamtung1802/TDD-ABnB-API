@@ -3,6 +3,8 @@ package com.TDD.ABnB.controller;
 import com.TDD.ABnB.models.AppProperty;
 import com.TDD.ABnB.services.app_property_service.AppPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,8 +37,8 @@ public class AppPropertyController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProperty(@PathVariable("id") Long id ) {
-        AppProperty appProperty = appPropertyService.findById(id);
-        appPropertyService.remove(appProperty);
+    public ResponseEntity<AppProperty> deleteProperty(@PathVariable("id") Long id ) {
+        AppProperty appProperty = appPropertyService.delete(id);
+        return new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
     }
 }

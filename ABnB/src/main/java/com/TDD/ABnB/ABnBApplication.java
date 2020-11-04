@@ -9,6 +9,8 @@ public class ABnBApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ABnBApplication.class, args);
 
+
 	}
+
 
 }

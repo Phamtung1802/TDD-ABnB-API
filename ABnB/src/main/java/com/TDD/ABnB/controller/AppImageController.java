@@ -3,6 +3,8 @@ package com.TDD.ABnB.controller;
 import com.TDD.ABnB.models.AppImage;
 import com.TDD.ABnB.services.app_image_service.AppImageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,8 +36,8 @@ public class AppImageController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteImage(@PathVariable("id") Long id) {
-        AppImage appImage = appImageService.findById(id);
-        appImageService.remove(appImage);
+    public ResponseEntity<AppImage> deleteImage(@PathVariable("id") Long id) {
+        AppImage appImage = appImageService.delete(id);
+        return new ResponseEntity<AppImage>(appImage, HttpStatus.ACCEPTED);
     }
 }

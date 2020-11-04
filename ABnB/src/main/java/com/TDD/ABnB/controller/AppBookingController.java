@@ -3,6 +3,8 @@ package com.TDD.ABnB.controller;
 import com.TDD.ABnB.models.AppBooking;
 import com.TDD.ABnB.services.app_booking_service.AppBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,8 +36,8 @@ public class AppBookingController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBooking(@PathVariable("id") Long id) {
-        AppBooking appBooking = appBookingService.findById(id);
-        appBookingService.remove(appBooking);
+    public ResponseEntity<AppBooking> deleteBooking(@PathVariable("id") Long id) {
+        AppBooking appBooking = appBookingService.delete(id);
+        return new ResponseEntity<AppBooking>(appBooking, HttpStatus.ACCEPTED);
     }
 }

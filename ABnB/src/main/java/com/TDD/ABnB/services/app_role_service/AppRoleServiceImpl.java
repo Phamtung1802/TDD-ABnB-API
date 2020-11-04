@@ -27,8 +27,10 @@ public class AppRoleServiceImpl implements AppRoleService {
     }
 
     @Override
-    public void remove(AppRole appRole) {
+    public AppRole delete (Long id) {
+        AppRole appRole = appRoleRepository.findById(id).get();
         appRoleRepository.delete(appRole);
+        return appRole;
 
     }
 }

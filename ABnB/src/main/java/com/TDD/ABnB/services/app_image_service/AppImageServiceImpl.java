@@ -29,7 +29,9 @@ public class AppImageServiceImpl implements AppImageService{
     }
 
     @Override
-    public void remove(AppImage appImage) {
+    public AppImage delete(Long id) {
+        AppImage appImage = appImageRepository.findById(id).get();
         appImageRepository.delete(appImage);
+        return appImage;
     }
 }

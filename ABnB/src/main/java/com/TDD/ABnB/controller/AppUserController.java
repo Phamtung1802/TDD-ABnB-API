@@ -4,6 +4,8 @@ package com.TDD.ABnB.controller;
 import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.services.app_user_service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,29 +16,32 @@ public class AppUserController {
     private AppUserService appUserService;
 
     @GetMapping()
-    public AppUser showUser(String name) {
-        return appUserService.findFirstByName(name);
+    public ResponseEntity<AppUser> showUser(String name) {
+        AppUser appUser = appUserService.findFirstByName(name);
+        return new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/{id}")
-    public AppUser showUserById(@PathVariable("id") Long id) {
-        return appUserService.findById(id);
+    public ResponseEntity<AppUser> showUserById(@PathVariable("id") Long id) {
+        AppUser appUser = appUserService.findById(id);
+        return new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
     }
 
     @PostMapping
-    public AppUser createUser(@RequestBody AppUser appUser) {
-        return appUserService.save(appUser);
+    public ResponseEntity <AppUser> createUser(@RequestBody AppUser appUser) {
+        return new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/{id}")
-    public AppUser updateUser(@PathVariable("id") Long id, @RequestBody AppUser appUser) {
+    public ResponseEntity <AppUser> updateUser(@PathVariable("id") Long id, @RequestBody AppUser appUser) {
         appUser.setId(id);
-        return appUserService.save(appUser);
+        appUserService.save(appUser);
+        return new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") Long id) {
-        AppUser appUser = appUserService.findById(id);
-        appUserService.remove(appUser);
+    public ResponseEntity<AppUser>  deleteUser(@PathVariable("id") Long id) {
+        AppUser appUser = appUserService.delete(id);
+        return new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
     }
 }

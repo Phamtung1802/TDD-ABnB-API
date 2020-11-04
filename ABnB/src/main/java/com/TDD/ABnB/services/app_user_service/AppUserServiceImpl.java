@@ -6,11 +6,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AppUserServiceImpl implements AppUserService{
+public class AppUserServiceImpl implements AppUserService {
     @Autowired
     AppUserRepository appUserRepository;
 
     public AppUser findFirstByName(String username){
        return appUserRepository.findFirstByName(username);
+    }
+
+    @Override
+    public AppUser findById(Long id) {
+        return appUserRepository.findFirstById(id);
+    }
+
+    @Override
+    public AppUser save(AppUser appUser) {
+        return appUserRepository.save(appUser);
+    }
+
+    @Override
+    public AppUser delete(Long id) {
+        AppUser appUser = appUserRepository.findById(id).get();
+        appUserRepository.delete(appUser);
+        return appUser;
     }
 }

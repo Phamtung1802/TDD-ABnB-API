@@ -12,7 +12,7 @@ public interface AppImageService {
 
     AppImage save(AppImage appImage);
 
-    void remove(AppImage appImage);
+    AppImage delete(Long id);
 
 
 }
