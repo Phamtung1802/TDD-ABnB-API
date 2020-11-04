@@ -1,6 +1,8 @@
 package com.TDD.ABnB.models;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -9,12 +11,14 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "property")
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"appInvoiceSet","appBookingSet"})
 public class AppProperty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,15 +74,15 @@ public class AppProperty {
     @Column(name="property_price")
     private long pricePerDay;
 
-
-
-    @ManyToMany
+    @ManyToMany(mappedBy = "appPropertySet")
+    @JsonIgnoreProperties("appPropertySet")
     Set<AppInvoice> appInvoiceSet;
 
     @ManyToMany
+    @JsonIgnoreProperties("appPropertySet")
     Set<AppBooking> appBookingSet;
 
-    @OneToMany(mappedBy = "appProperty", cascade = CascadeType.ALL)
+    @OneToMany
     private Collection<AppReview> appReviews;
 
     @NotNull
@@ -86,7 +90,7 @@ public class AppProperty {
     @JoinColumn(name = "user_id")
     private AppUser appUser;
 
-    @OneToMany(mappedBy = "appProperty", cascade = CascadeType.ALL)
+    @OneToMany
     private Collection<AppImage> appImages;
 
 

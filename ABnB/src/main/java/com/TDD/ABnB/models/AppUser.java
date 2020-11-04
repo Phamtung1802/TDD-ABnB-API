@@ -46,16 +46,16 @@ public class AppUser {
     @JoinColumn(name = "role_id")
     private AppRole appRole;
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    @OneToMany
     private Collection<AppReview> appReviews;
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    @OneToMany
     private Collection<AppBooking> appBookings;
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    @OneToMany
     private Collection<AppInvoice> appInvoices;
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    @OneToMany
     private Collection<AppProperty> appProperties;
 
 

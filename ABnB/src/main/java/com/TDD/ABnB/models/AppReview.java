@@ -2,6 +2,7 @@ package com.TDD.ABnB.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,9 +23,8 @@ public class AppReview {
     @Column(name="review_comment")
     private String comment;
 
-    @NotNull
     @Column(name="review_rating")
-    @Size(min = 1, max = 5)
+    @Range(min = 1, max = 5)
     private int rating;
 
     @NotNull

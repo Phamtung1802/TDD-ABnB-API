@@ -33,7 +33,6 @@ public class AppPropertyServiceImpl implements AppPropertyService {
         appPropertyRepository.delete(appProperty);
     }
 
-    @Override
     public List<AppProperty> findAllByAddress(String address) {
         return appPropertyRepository.findAllByAddress(address);
     }

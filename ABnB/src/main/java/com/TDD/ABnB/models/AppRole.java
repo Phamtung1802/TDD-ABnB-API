@@ -23,7 +23,7 @@ public class AppRole {
     @Column(name="role_name")
     private String name;
 
-    @OneToMany(mappedBy = "appRole", cascade = CascadeType.ALL)
+    @OneToMany
     private Collection<AppUser> appUsers;
 
 }

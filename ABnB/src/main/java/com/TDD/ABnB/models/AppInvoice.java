@@ -1,6 +1,8 @@
 package com.TDD.ABnB.models;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -12,11 +14,17 @@ import java.util.Set;
 @Table(name = "invoices")
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"appPropertySet"})
 public class AppInvoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="invoice_id")
     private Long id;
+
+    @Column(name="invoice_date")
+    @NotNull
+    private String invoiceDate;
+
 
     @Column(name="invoice_checkin_date")
     @NotNull
@@ -35,8 +43,9 @@ public class AppInvoice {
     @ManyToMany
     @JoinTable(
             name = "app_property_invoice",
-            joinColumns = @JoinColumn(name = "property_id"),
-            inverseJoinColumns = @JoinColumn(name = "invoice_id"))
+            joinColumns = @JoinColumn(name = "invoice_id"),
+            inverseJoinColumns = @JoinColumn(name = "property_id"))
+    @JsonIgnoreProperties({"appInvoiceSet","appBookingSet"})
     Set<AppProperty> appPropertySet;
 
 
