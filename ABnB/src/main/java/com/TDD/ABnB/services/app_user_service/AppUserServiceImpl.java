@@ -32,12 +32,6 @@ public class AppUserServiceImpl implements AppUserService{
             appUserRepository.delete(appUser);
     }
 
-    public void checkUserAvailability(String name) throws DuplilcateUserException {
-        if (appUserRepository.findByName(name)!=null) {
-            throw new DuplilcateUserException("Ten Nguoi Dung Da Ton Tai ");
-        }
-    }
-
     @Override
     public Iterable<AppUser> findAll() {
         return appUserRepository.findAll();
