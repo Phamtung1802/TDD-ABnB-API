@@ -40,7 +40,7 @@ public class JwtAuthenticationController {
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
-            throw new Exception("INVALID", e);
+            throw new Exception("INVALID USERNAME OR PASSWORD", e);
         }
     }
 }
