@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 @CrossOrigin("*")
-public class AppUserController {
+public class AppUserController{
 
     @Autowired
     private AppUserService appUserService;
@@ -42,15 +42,26 @@ public class AppUserController {
     }
 
     @PostMapping()
-    public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) throws DuplilcateUserException {
-        try {
-            appUserService.checkUserAvailability(appUser.getName());
-            appUserService.checkEmailAvailability(appUser.getEmail());
-            appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
-        } catch (Exception e) {
-            throw (DuplilcateUserException) e;
+    public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) throws Exception {
+        String userCheck= appUserService.checkUserAvailability(appUser.getName());
+        String emailCheck= appUserService.checkEmailAvailability(appUser.getEmail());
+        String phoneNumberCheck= appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
+        StringBuilder errorMessage=new StringBuilder();
+        if(userCheck!=null)
+        {
+            errorMessage.append(userCheck+"<br>");
         }
-        appUser.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
+        if(emailCheck!=null) {
+            errorMessage.append(emailCheck + "<br>");
+        }
+        if(phoneNumberCheck!=null) {
+            errorMessage.append(phoneNumberCheck + "<br>");
+        }
+        if(errorMessage!=null){
+            throw new DuplilcateUserException(errorMessage.toString());
+        }
+
+            appUser.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
         appUserService.save(appUser);
         ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
         return res;

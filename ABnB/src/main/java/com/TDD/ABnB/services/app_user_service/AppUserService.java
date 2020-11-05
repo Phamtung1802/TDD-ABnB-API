@@ -17,10 +17,10 @@ public interface AppUserService {
 
     public Iterable<AppUser> findAll();
 
-    public void checkUserAvailability(String name) throws DuplilcateUserException, Exception;
+    public String checkUserAvailability(String name) throws DuplilcateUserException, Exception;
 
-    public void checkEmailAvailability(String email) throws DuplilcateUserException, Exception;
+    public String checkEmailAvailability(String email) throws DuplilcateUserException, Exception;
 
-    public void checkPhoneAvailability(String phoneNumber) throws DuplilcateUserException, Exception;
+    public String checkPhoneAvailability(String phoneNumber) throws DuplilcateUserException, Exception;
 
 }

@@ -38,23 +38,28 @@ public class AppUserServiceImpl implements AppUserService{
     }
 
     @Override
-    public void checkUserAvailability(String name) throws DuplilcateUserException, Exception {
-        if (appUserRepository.findByName(name) != null) {
-            throw new DuplilcateUserException(" Ten nguoi dung ton tai");
+    public String checkUserAvailability(String name) {
+        if (appUserRepository.findFirstByName(name) != null) {
+            System.out.println(appUserRepository.findByName(name));
+            return "Username not available";
         }
+        return null;
     }
 
     @Override
-    public void checkEmailAvailability(String email) throws DuplilcateUserException, Exception  {
-        if (appUserRepository.findByEmail(email) != null) {
-            throw new DuplilcateUserException(" Email da ton tai");
+    public String checkEmailAvailability(String email) {
+        if (appUserRepository.findFirstByEmail(email)!= null) {
+            return "Email already registered";
         }
+        return null;
     }
 
     @Override
-    public void checkPhoneAvailability(String phoneNumber) throws DuplilcateUserException, Exception {
-        if (appUserRepository.findByPhoneNumber(phoneNumber) != null) {
-            throw new DuplilcateUserException(" So dien thoai da ton tai");
+    public String checkPhoneAvailability(String phoneNumber) {
+        if (appUserRepository.findFirstByPhoneNumber(phoneNumber) != null) {
+            System.out.println(appUserRepository.findByName(phoneNumber));
+            return "Phone Number already registered";
         }
+        return null;
     }
 }
