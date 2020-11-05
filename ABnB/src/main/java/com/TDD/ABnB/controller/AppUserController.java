@@ -46,7 +46,7 @@ public class AppUserController{
         String userCheck= appUserService.checkUserAvailability(appUser.getName());
         String emailCheck= appUserService.checkEmailAvailability(appUser.getEmail());
         String phoneNumberCheck= appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
-        StringBuilder errorMessage=new StringBuilder();
+        StringBuilder errorMessage=new StringBuilder("");
         if(userCheck!=null)
         {
             errorMessage.append(userCheck+"<br>");
@@ -57,11 +57,11 @@ public class AppUserController{
         if(phoneNumberCheck!=null) {
             errorMessage.append(phoneNumberCheck + "<br>");
         }
-        if(errorMessage!=null){
+        if(errorMessage.length()>2){
             throw new DuplilcateUserException(errorMessage.toString());
         }
 
-            appUser.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
+        appUser.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
         appUserService.save(appUser);
         ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
         return res;
