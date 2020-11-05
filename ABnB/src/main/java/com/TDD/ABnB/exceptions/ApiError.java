@@ -17,19 +17,22 @@ import java.util.List;
 @Getter
 @Setter
 public class ApiError {
+    private String exception;
     private HttpStatus status;
     private String message;
     private List<String> errors;
 
-    public ApiError(HttpStatus status, String message, List<String> errors) {
+    public ApiError(String exception,HttpStatus status, String message, List<String> errors) {
         super();
+        this.exception=exception;
         this.status = status;
         this.message = message;
         this.errors = errors;
     }
 
-    public ApiError(HttpStatus status, String message, String error) {
+    public ApiError(String exception,HttpStatus status, String message, String error) {
         super();
+        this.exception=exception;
         this.status = status;
         this.message = message;
         errors = Arrays.asList(error);
