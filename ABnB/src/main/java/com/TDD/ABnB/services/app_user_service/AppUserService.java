@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface AppUserService {
-    AppUser findFirstByName(String name);
+    AppUser findFirstByName(String name) ;
 
-    AppUser findById(Long id);
+    AppUser findById(Long id) ;
 
     AppUser save(AppUser appUser);
 
@@ -18,5 +18,9 @@ public interface AppUserService {
     public Iterable<AppUser> findAll();
 
     public void checkUserAvailability(String name) throws DuplilcateUserException, Exception;
+
+    public void checkEmailAvailability(String email) throws DuplilcateUserException, Exception;
+
+    public void checkPhoneAvailability(String phoneNumber) throws DuplilcateUserException, Exception;
 
 }
