@@ -1,6 +1,7 @@
 package com.TDD.ABnB.controller;
 
 
+import com.TDD.ABnB.exceptions.DuplilcateUserException;
 import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.services.app_user_service.AppUserService;
@@ -38,7 +39,12 @@ public class AppUserController {
     }
 
     @PostMapping()
-    public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) {
+    public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) throws Exception {
+        try{
+            appUserService.checkUserAvailability(appUser.getName());
+        } catch (Exception e){
+            throw e;
+        }
         appUser.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
         appUserService.save(appUser);
         ResponseEntity<AppUser> res=new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);

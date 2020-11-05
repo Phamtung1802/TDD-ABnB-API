@@ -1,12 +1,13 @@
 package com.TDD.ABnB.services.app_user_service;
 
+import com.TDD.ABnB.exceptions.DuplilcateUserException;
 import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.repositories.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AppUserServiceImpl implements AppUserService {
+public class AppUserServiceImpl implements AppUserService{
 
     @Autowired
     private AppUserRepository appUserRepository;
@@ -29,6 +30,12 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public void delete(AppUser appUser) {
             appUserRepository.delete(appUser);
+    }
+
+    public void checkUserAvailability(String name) throws Exception {
+        if (appUserRepository.findByName(name)!=null) {
+            throw new Exception("Ten Nguoi Dung Da Ton Tai ");
+        }
     }
 
     @Override
