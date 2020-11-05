@@ -1,7 +1,9 @@
 package com.TDD.ABnB;
 
+import com.TDD.ABnB.exceptions.InvalidTokenException;
 import com.TDD.ABnB.services.JwtUserDetailsService;
 import com.TDD.ABnB.utilities.JwtTokenUtil;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +27,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @SneakyThrows
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
@@ -41,7 +44,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             } catch (IllegalArgumentException e) {
                 System.out.println("Unable to get JWT Token");
             } catch (Exception e) {
-                System.out.println("JWT Token has expired");
+                throw new InvalidTokenException("INVALID_TOKEN");
             }
         } else {
             logger.warn("JWT Token does not begin with Bearer String");
