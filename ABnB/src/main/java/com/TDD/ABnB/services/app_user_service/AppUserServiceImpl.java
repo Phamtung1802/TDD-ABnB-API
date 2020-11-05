@@ -4,10 +4,14 @@ import com.TDD.ABnB.exceptions.DuplilcateUserException;
 import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.repositories.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AppUserServiceImpl implements AppUserService{
+public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     @Autowired
     private AppUserRepository appUserRepository;
@@ -59,5 +63,15 @@ public class AppUserServiceImpl implements AppUserService{
             return "Phone Number already registered";
         }
         return null;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        AppUser appUser= appUserRepository.findFirstByName(username);
+        if (appUser!=null) {
+            return User.withUsername(appUser.getName()).password(appUser.getPassword()).roles(appUser.getAppRole().getName()).build();
+        } else {
+            throw new UsernameNotFoundException(username);
+        }
     }
 }

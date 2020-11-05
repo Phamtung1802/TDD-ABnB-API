@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +29,14 @@ public class AppUserController{
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    @GetMapping()
-    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
+    @GetMapping("/users")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<Iterable<AppUser>> showListUser() {
         Iterable<AppUser> appReviews = appUserService.findAll();
+        for (AppUser user:appReviews
+             ) {
+            user.setPassword(null);
+        }
         ResponseEntity<Iterable<AppUser>> res = new ResponseEntity<Iterable<AppUser>>(appReviews, HttpStatus.ACCEPTED);
         return res;
     }
