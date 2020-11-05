@@ -13,7 +13,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 
-public class AppRole {
+public class AppRole implements GrantedAuthority{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="role_id")
@@ -26,4 +26,8 @@ public class AppRole {
     @OneToMany
     private Collection<AppUser> appUsers;
 
+    @Override
+    public String getAuthority() {
+        return this.name;
+    }
 }

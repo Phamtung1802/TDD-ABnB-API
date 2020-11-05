@@ -16,35 +16,35 @@ public class AppRoleController {
     private AppRoleService appRoleService;
 
     @GetMapping()
-    public ResponseEntity<Iterable<AppRole>> showListBooking() {
+    public ResponseEntity<Iterable<AppRole>> showListRole() {
         Iterable<AppRole> appRoles=appRoleService.findAll();
         ResponseEntity<Iterable<AppRole>> res=new ResponseEntity<Iterable<AppRole>>(appRoles, HttpStatus.ACCEPTED);
         return res;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AppRole> showBooking(@PathVariable("id") Long id) {
+    public ResponseEntity<AppRole> showRole(@PathVariable("id") Long id) {
         AppRole appRole= appRoleService.findById(id);
         ResponseEntity<AppRole> res=new ResponseEntity<AppRole>(appRole, HttpStatus.ACCEPTED);
         return res;
     }
 
     @PostMapping()
-    public ResponseEntity<AppRole> createBooking(@RequestBody AppRole appRole) {
+    public ResponseEntity<AppRole> createRole(@RequestBody AppRole appRole) {
         appRoleService.save(appRole);
         ResponseEntity<AppRole> res=new ResponseEntity<AppRole>(appRole, HttpStatus.ACCEPTED);
         return res;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AppRole> updateBooking(@PathVariable("id") Long id, @RequestBody AppRole appRole) {
+    public ResponseEntity<AppRole> updateRole(@PathVariable("id") Long id, @RequestBody AppRole appRole) {
         appRole.setId(id);
         ResponseEntity<AppRole> res=new ResponseEntity<AppRole>(appRole, HttpStatus.ACCEPTED);
         return res;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteBooking(@PathVariable("id") Long id) {
+    public void deleteRole(@PathVariable("id") Long id) {
         AppRole appRole = appRoleService.findById(id);
         appRoleService.delete(appRole);
     }

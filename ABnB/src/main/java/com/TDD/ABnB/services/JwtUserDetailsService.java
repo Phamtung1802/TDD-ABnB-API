@@ -18,6 +18,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (appUserServiceImpl.findFirstByName(username)!=null) {
+            System.out.println(appUserServiceImpl.findFirstByName(username).getPassword());
             return new User(username, appUserServiceImpl.findFirstByName(username).getPassword(),
                     new ArrayList<>());
         } else {
