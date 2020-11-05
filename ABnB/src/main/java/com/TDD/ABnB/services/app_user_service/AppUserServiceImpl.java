@@ -42,4 +42,11 @@ public class AppUserServiceImpl implements AppUserService{
     public Iterable<AppUser> findAll() {
         return appUserRepository.findAll();
     }
+
+    @Override
+    public void checkUserAvailability(String name) throws DuplilcateUserException, Exception {
+        if (appUserRepository.findByName(name) != null) {
+            throw new DuplilcateUserException(" Ten nguoi dung ton tai ");
+        }
+    }
 }

@@ -40,10 +40,10 @@ public class AppUserController {
 
     @PostMapping()
     public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) throws DuplilcateUserException {
-        try{
+        try {
             appUserService.checkUserAvailability(appUser.getName());
-        } catch (Exception e){
-            throw (DuplilcateUserException)e;
+        } catch (Exception e) {
+            throw  (DuplilcateUserException) e;
         }
         appUser.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
         appUserService.save(appUser);
