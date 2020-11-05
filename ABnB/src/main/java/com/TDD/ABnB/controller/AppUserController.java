@@ -43,16 +43,8 @@ public class AppUserController {
     public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) throws DuplilcateUserException {
         try {
             appUserService.checkUserAvailability(appUser.getName());
-            try {
-                appUserService.checkEmailAvailability(appUser.getEmail());
-                try {
-                    appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
-                } catch (Exception e) {
-                    throw (DuplilcateUserException) e;
-                }
-            } catch (Exception e) {
-                throw (DuplilcateUserException) e;
-            }
+            appUserService.checkEmailAvailability(appUser.getEmail());
+            appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
         } catch (Exception e) {
             throw (DuplilcateUserException) e;
         }
