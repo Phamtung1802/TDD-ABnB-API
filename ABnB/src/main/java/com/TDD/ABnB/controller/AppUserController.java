@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 @CrossOrigin("*")
-public class AppUserController{
+public class AppUserController {
 
     @Autowired
     private AppUserService appUserService;
@@ -27,7 +27,7 @@ public class AppUserController{
 
 
     @GetMapping()
-    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
+    @Secured({"ROLE_USER", "ROLE_ADMIN", "ROLE_RENTER"})
     public ResponseEntity<Iterable<AppUser>> showListUser() {
         Iterable<AppUser> appReviews = appUserService.findAll();
         ResponseEntity<Iterable<AppUser>> res = new ResponseEntity<Iterable<AppUser>>(appReviews, HttpStatus.ACCEPTED);
@@ -43,25 +43,24 @@ public class AppUserController{
 
     @PostMapping()
     public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) throws Exception {
-        String userCheck= appUserService.checkUserAvailability(appUser.getName());
-        String emailCheck= appUserService.checkEmailAvailability(appUser.getEmail());
-        String phoneNumberCheck= appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
-        StringBuilder errorMessage=new StringBuilder();
-        if(userCheck!=null)
-        {
-            errorMessage.append(userCheck+"<br>");
+        String userCheck = appUserService.checkUserAvailability(appUser.getName());
+        String emailCheck = appUserService.checkEmailAvailability(appUser.getEmail());
+        String phoneNumberCheck = appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
+        StringBuilder errorMessage = new StringBuilder();
+        if (userCheck != null) {
+            errorMessage.append(userCheck + "<br>");
         }
-        if(emailCheck!=null) {
+        if (emailCheck != null) {
             errorMessage.append(emailCheck + "<br>");
         }
-        if(phoneNumberCheck!=null) {
+        if (phoneNumberCheck != null) {
             errorMessage.append(phoneNumberCheck + "<br>");
         }
-        if(errorMessage!=null){
+        if (errorMessage != null) {
             throw new DuplilcateUserException(errorMessage.toString());
         }
 
-            appUser.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
+        appUser.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
         appUserService.save(appUser);
         ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
         return res;
