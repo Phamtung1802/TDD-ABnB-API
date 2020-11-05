@@ -1,5 +1,6 @@
 package com.TDD.ABnB.services.app_user_service;
 
+import com.TDD.ABnB.exceptions.DuplilcateUserException;
 import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.repositories.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,12 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public Iterable<AppUser> findAll() {
         return appUserRepository.findAll();
+    }
+
+    @Override
+    public void checkUserAvailability(String name) throws DuplilcateUserException, Exception {
+        if (appUserRepository.findByName(name) != null) {
+            throw new DuplilcateUserException(" Ten nguoi dung ton tai ");
+        }
     }
 }
