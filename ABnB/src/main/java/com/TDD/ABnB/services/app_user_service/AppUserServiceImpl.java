@@ -14,12 +14,12 @@ public class AppUserServiceImpl implements AppUserService {
 
     @Override
     public AppUser findFirstByName(String name) {
-        return appUserRepository.findFirstByName(name);
+            return appUserRepository.findFirstByName(name);
     }
 
     @Override
-    public AppUser findById(Long id) {
-        return appUserRepository.findById(id).get();
+    public AppUser findById(Long id)   {
+              return appUserRepository.findById(id).get();
     }
 
     @Override
@@ -40,7 +40,21 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public void checkUserAvailability(String name) throws DuplilcateUserException, Exception {
         if (appUserRepository.findByName(name) != null) {
-            throw new DuplilcateUserException(" Ten nguoi dung ton tai ");
+            throw new DuplilcateUserException(" Ten nguoi dung ton tai");
+        }
+    }
+
+    @Override
+    public void checkEmailAvailability(String email) throws DuplilcateUserException, Exception  {
+        if (appUserRepository.findByEmail(email) != null) {
+            throw new DuplilcateUserException(" Email da ton tai");
+        }
+    }
+
+    @Override
+    public void checkPhoneAvailability(String phoneNumber) throws DuplilcateUserException, Exception {
+        if (appUserRepository.findByPhoneNumber(phoneNumber) != null) {
+            throw new DuplilcateUserException(" So dien thoai da ton tai");
         }
     }
 }

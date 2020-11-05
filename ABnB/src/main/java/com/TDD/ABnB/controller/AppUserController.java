@@ -21,20 +21,21 @@ public class AppUserController {
     @Autowired
     private AppUserService appUserService;
 
-    @Autowired BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @GetMapping()
     public ResponseEntity<Iterable<AppUser>> showListUser() {
-        Iterable<AppUser> appReviews=appUserService.findAll();
-        ResponseEntity<Iterable<AppUser>> res=new ResponseEntity<Iterable<AppUser>>(appReviews, HttpStatus.ACCEPTED);
+        Iterable<AppUser> appReviews = appUserService.findAll();
+        ResponseEntity<Iterable<AppUser>> res = new ResponseEntity<Iterable<AppUser>>(appReviews, HttpStatus.ACCEPTED);
         return res;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AppUser> showUser(@PathVariable("id") Long id) {
-        AppUser appUser= appUserService.findById(id);
-        ResponseEntity<AppUser> res=new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        AppUser appUser = appUserService.findById(id);
+        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
         return res;
     }
 
@@ -42,19 +43,29 @@ public class AppUserController {
     public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) throws DuplilcateUserException {
         try {
             appUserService.checkUserAvailability(appUser.getName());
+            try {
+                appUserService.checkEmailAvailability(appUser.getEmail());
+                try {
+                    appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
+                } catch (Exception e) {
+                    throw (DuplilcateUserException) e;
+                }
+            } catch (Exception e) {
+                throw (DuplilcateUserException) e;
+            }
         } catch (Exception e) {
-            throw  (DuplilcateUserException) e;
+            throw (DuplilcateUserException) e;
         }
         appUser.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
         appUserService.save(appUser);
-        ResponseEntity<AppUser> res=new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
         return res;
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AppUser> updateUser(@PathVariable("id") Long id, @RequestBody AppUser appUser) {
         appUser.setId(id);
-        ResponseEntity<AppUser> res=new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
         return res;
     }
 
