@@ -40,7 +40,6 @@ public class AppUserServiceImpl implements AppUserService{
     @Override
     public String checkUserAvailability(String name) {
         if (appUserRepository.findFirstByName(name) != null) {
-            System.out.println(appUserRepository.findByName(name));
             return "Username not available";
         }
         return null;
@@ -57,7 +56,6 @@ public class AppUserServiceImpl implements AppUserService{
     @Override
     public String checkPhoneAvailability(String phoneNumber) {
         if (appUserRepository.findFirstByPhoneNumber(phoneNumber) != null) {
-            System.out.println(appUserRepository.findByName(phoneNumber));
             return "Phone Number already registered";
         }
         return null;
