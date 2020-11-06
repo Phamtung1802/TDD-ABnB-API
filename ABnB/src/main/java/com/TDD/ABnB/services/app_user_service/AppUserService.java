@@ -23,4 +23,6 @@ public interface AppUserService {
 
     public String checkPhoneAvailability(String phoneNumber) throws DuplilcateUserException, Exception;
 
+    AppUser findFirstById (Long id);
+
 }

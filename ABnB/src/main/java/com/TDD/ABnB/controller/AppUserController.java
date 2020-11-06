@@ -74,9 +74,41 @@ public class AppUserController{
         return res;
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AppUser> updateUser(@PathVariable("id") Long id, @RequestBody AppUser appUser) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<AppUser> updateUser(@PathVariable("id") Long id, @RequestBody AppUser appUser) throws Exception {
         appUser.setId(id);
+        String editEmail = null;
+        String editPhone =  null;
+        System.out.println("Checking");
+        System.out.println("app User "+ appUser.getPhoneNumber());
+        System.out.println("app User "+ appUser.getEmail());
+        System.out.println(appUserService.findFirstById(appUser.getId()));
+
+
+
+        boolean isEmailChanged=appUser.getEmail().equals(appUserService.findFirstById(appUser.getId()).getEmail());
+        boolean isPhoneChanged=appUser.getPhoneNumber().equals(appUserService.findFirstById(appUser.getId()).getPhoneNumber());
+        System.out.println("Email "+ isEmailChanged);
+        System.out.println("Phone "+ isPhoneChanged);
+
+        if(!isEmailChanged){
+            editEmail= appUserService.checkEmailAvailability(appUser.getEmail());
+        }
+        if(!isPhoneChanged){
+            editPhone= appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
+        }
+
+        StringBuilder messageError = new StringBuilder("");
+        if (editEmail != null) {
+            messageError.append(editEmail + "<br>");
+        }
+        if (editPhone != null) {
+            messageError.append(editPhone + "<br>");
+        }
+        if (messageError.length() > 2) {
+            throw new DuplilcateUserException(messageError.toString());
+        }
+        appUserService.save(appUser);
         ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
         return res;
     }
