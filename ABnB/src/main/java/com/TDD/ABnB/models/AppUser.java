@@ -38,6 +38,13 @@ public class AppUser implements Serializable {
     @Column(name="user_email")
     private String email;
 
+    @Column(name="user_address")
+    private String address;
+
+    @Column(name="user_realname")
+    private String realName;
+
+
     @NotNull
     @Column(name="user_phone_number")
     @Size(min = 10, max = 11)
