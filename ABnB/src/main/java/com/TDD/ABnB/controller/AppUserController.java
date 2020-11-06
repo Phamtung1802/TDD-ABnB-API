@@ -109,12 +109,7 @@ public class AppUserController{
         if (messageError.length() > 2) {
             throw new DuplilcateUserException(messageError.toString());
         }
-        try {
-            System.out.println(userToUpdate);
-            appUserService.save(userToUpdate);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+
         ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
         return res;
     }
