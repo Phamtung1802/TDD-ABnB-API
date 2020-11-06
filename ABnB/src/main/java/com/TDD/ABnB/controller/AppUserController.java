@@ -125,4 +125,35 @@ public class AppUserController{
         AppUser appUser = appUserService.findById(id);
         appUserService.delete(appUser);
     }
+
+    @PatchMapping("/password/{id}")
+    public ResponseEntity<AppUser> changedPassword(@PathVariable("id") Long id, @RequestBody AppUser appUser) throws Exception {
+        AppUser userUpdatePass = appUserService.findById(id);
+        String changePass = null;
+
+        boolean isPassword=((appUser.getPassword()!=null)&&(appUser.getPassword().equals(userUpdatePass.getPassword())));
+        changePass= appUserService.checkPassword(appUser.getPassword());
+        System.out.println("pass "+bCryptPasswordEncoder.encode(appUser.getPassword()));
+        userUpdatePass.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
+
+
+        StringBuilder notificationError = new StringBuilder("");
+
+        if (changePass != null) {
+            notificationError.append(changePass + "<br>");
+        }
+
+        if (notificationError.length() > 2) {
+            throw new DuplilcateUserException(notificationError.toString());
+        }
+        try {
+            System.out.println(userUpdatePass.getPassword());
+            appUserService.save(userUpdatePass);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        return res;
+    }
 }

@@ -51,4 +51,6 @@ public class AppPropertyController {
         AppProperty appProperty = appPropertyService.findById(id);
         appPropertyService.delete(appProperty);
     }
+
+
 }

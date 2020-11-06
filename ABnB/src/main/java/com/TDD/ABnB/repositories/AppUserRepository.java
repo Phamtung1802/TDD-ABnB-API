@@ -15,5 +15,7 @@ public interface AppUserRepository extends PagingAndSortingRepository<AppUser,Lo
 
     AppUser findFirstByPhoneNumber(String phoneNumber);
 
+    AppUser findFirstByPassword(String password);
+
     AppUser findFirstById (Long id);
 }

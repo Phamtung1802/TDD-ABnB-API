@@ -23,6 +23,8 @@ public interface AppUserService {
 
     public String checkPhoneAvailability(String phoneNumber) throws DuplilcateUserException, Exception;
 
+    public String checkPassword(String password) throws DuplilcateUserException, Exception;
+
     AppUser findFirstById (Long id);
 
 }

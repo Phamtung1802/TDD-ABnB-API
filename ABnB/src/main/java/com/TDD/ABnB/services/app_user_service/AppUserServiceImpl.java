@@ -79,4 +79,12 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
     }
+
+    @Override
+    public String checkPassword(String password) {
+        if (appUserRepository.findFirstByPassword(password) != null) {
+                 return "Same as old password ";
+        }
+        return null;
+    }
 }
