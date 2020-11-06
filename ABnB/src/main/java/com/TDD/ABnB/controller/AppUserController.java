@@ -81,17 +81,8 @@ public class AppUserController{
         AppUser userToUpdate= appUserService.findById(id);
         String editEmail = null;
         String editPhone =  null;
-        System.out.println("Checking");
-
-        System.out.println("app User Phone "+ appUser.getPhoneNumber());
-        System.out.println("app User Email "+ appUser.getEmail());
-        System.out.println("find User by ID "+ appUserService.findById(id));
         boolean isEmailChanged=((appUser.getEmail()!=null)&&(appUser.getEmail().equals(userToUpdate.getEmail())));
         boolean isPhoneChanged=((appUser.getPhoneNumber()!=null)&&(appUser.getPhoneNumber().equals(userToUpdate.getPhoneNumber())));
-        System.out.println("Email "+ isEmailChanged);
-        System.out.println("Phone "+ isPhoneChanged);
-
-
         if(appUser.getAddress()!=null){
             userToUpdate.setAddress(appUser.getAddress());
         }
@@ -104,7 +95,6 @@ public class AppUserController{
             userToUpdate.setEmail(appUser.getEmail());
         }
         if(appUser.getPhoneNumber()!=null&&!isPhoneChanged){
-            System.out.println("can change phone is true");
             editPhone= appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
             userToUpdate.setPhoneNumber(appUser.getPhoneNumber());
         }
