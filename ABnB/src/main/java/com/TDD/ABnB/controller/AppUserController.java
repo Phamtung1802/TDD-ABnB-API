@@ -17,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Properties;
+
 @RestController
 @RequestMapping("/users")
 @CrossOrigin("*")
@@ -76,26 +78,35 @@ public class AppUserController{
 
     @PatchMapping("/{id}")
     public ResponseEntity<AppUser> updateUser(@PathVariable("id") Long id, @RequestBody AppUser appUser) throws Exception {
-        appUser.setId(id);
+        AppUser userToUpdate= appUserService.findById(id);
         String editEmail = null;
         String editPhone =  null;
         System.out.println("Checking");
-        System.out.println("app User "+ appUser.getPhoneNumber());
-        System.out.println("app User "+ appUser.getEmail());
-        System.out.println(appUserService.findFirstById(appUser.getId()));
 
-
-
-        boolean isEmailChanged=appUser.getEmail().equals(appUserService.findFirstById(appUser.getId()).getEmail());
-        boolean isPhoneChanged=appUser.getPhoneNumber().equals(appUserService.findFirstById(appUser.getId()).getPhoneNumber());
+        System.out.println("app User Phone "+ appUser.getPhoneNumber());
+        System.out.println("app User Email "+ appUser.getEmail());
+        System.out.println("find User by ID "+ appUserService.findById(id));
+        boolean isEmailChanged=((appUser.getEmail()!=null)&&(appUser.getEmail().equals(userToUpdate.getEmail())));
+        boolean isPhoneChanged=((appUser.getPhoneNumber()!=null)&&(appUser.getPhoneNumber().equals(userToUpdate.getPhoneNumber())));
         System.out.println("Email "+ isEmailChanged);
         System.out.println("Phone "+ isPhoneChanged);
 
-        if(!isEmailChanged){
-            editEmail= appUserService.checkEmailAvailability(appUser.getEmail());
+
+        if(appUser.getAddress()!=null){
+            userToUpdate.setAddress(appUser.getAddress());
         }
-        if(!isPhoneChanged){
+        if(appUser.getRealName()!=null){
+            userToUpdate.setRealName(appUser.getRealName());
+        }
+
+        if(appUser.getEmail()!=null&&!isEmailChanged){
+            editEmail= appUserService.checkEmailAvailability(appUser.getEmail());
+            userToUpdate.setEmail(appUser.getEmail());
+        }
+        if(appUser.getPhoneNumber()!=null&&!isPhoneChanged){
+            System.out.println("can change phone is true");
             editPhone= appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
+            userToUpdate.setPhoneNumber(appUser.getPhoneNumber());
         }
 
         StringBuilder messageError = new StringBuilder("");
@@ -108,7 +119,12 @@ public class AppUserController{
         if (messageError.length() > 2) {
             throw new DuplilcateUserException(messageError.toString());
         }
-        appUserService.save(appUser);
+        try {
+            System.out.println(userToUpdate);
+            appUserService.save(userToUpdate);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
         return res;
     }
