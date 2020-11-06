@@ -1,16 +1,19 @@
 package com.TDD.ABnB.utilities;
 
+import com.TDD.ABnB.models.AppRole;
+import com.TDD.ABnB.models.AppUser;
+import com.TDD.ABnB.services.app_user_service.AppUserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Component
@@ -20,6 +23,9 @@ public class JwtTokenUtil implements Serializable {
     @Value("${jwt.secret}")
 
     private String secret;    //retrieve username from jwt token
+
+    @Autowired
+    AppUserService appUserServiceImpl;
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
@@ -41,7 +47,7 @@ public class JwtTokenUtil implements Serializable {
     }
 
     //check if the token has expired
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
@@ -49,6 +55,11 @@ public class JwtTokenUtil implements Serializable {
     //generate token for user
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+//        Set<String> Userroles = new HashSet<>();
+        AppUser appUser = appUserServiceImpl.findFirstByName(userDetails.getUsername());
+//        AppRole appRole =appUser.getAppRole();
+//        Userroles.add(appRole.getAuthority());
+//        claims.put("authorities",Userroles.toArray());
         return doGenerateToken(claims, userDetails.getUsername());
     }
 

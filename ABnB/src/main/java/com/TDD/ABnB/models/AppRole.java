@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -23,8 +24,8 @@ public class AppRole implements GrantedAuthority{
     @Column(name="role_name")
     private String name;
 
-    @OneToMany
-    private Collection<AppUser> appUsers;
+    @OneToMany(targetEntity = AppUser.class, cascade = {CascadeType.ALL})
+    private List<AppUser> appUsers;
 
     @Override
     public String getAuthority() {

@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 @CrossOrigin("*")
-public class AppUserController {
+public class AppUserController{
 
     @Autowired
     private AppUserService appUserService;
@@ -26,10 +29,14 @@ public class AppUserController {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    @GetMapping()
-    @Secured({"ROLE_USER", "ROLE_ADMIN", "ROLE_RENTER"})
+    @GetMapping("/users")
+    @Secured({"ROLE_USER"})
     public ResponseEntity<Iterable<AppUser>> showListUser() {
         Iterable<AppUser> appReviews = appUserService.findAll();
+        for (AppUser user:appReviews
+             ) {
+            user.setPassword(null);
+        }
         ResponseEntity<Iterable<AppUser>> res = new ResponseEntity<Iterable<AppUser>>(appReviews, HttpStatus.ACCEPTED);
         return res;
     }
@@ -43,20 +50,21 @@ public class AppUserController {
 
     @PostMapping()
     public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) throws Exception {
-        String userCheck = appUserService.checkUserAvailability(appUser.getName());
-        String emailCheck = appUserService.checkEmailAvailability(appUser.getEmail());
-        String phoneNumberCheck = appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
-        StringBuilder errorMessage = new StringBuilder();
-        if (userCheck != null) {
-            errorMessage.append(userCheck + "<br>");
+        String userCheck= appUserService.checkUserAvailability(appUser.getName());
+        String emailCheck= appUserService.checkEmailAvailability(appUser.getEmail());
+        String phoneNumberCheck= appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
+        StringBuilder errorMessage=new StringBuilder("");
+        if(userCheck!=null)
+        {
+            errorMessage.append(userCheck+"<br>");
         }
-        if (emailCheck != null) {
+        if(emailCheck!=null) {
             errorMessage.append(emailCheck + "<br>");
         }
-        if (phoneNumberCheck != null) {
+        if(phoneNumberCheck!=null) {
             errorMessage.append(phoneNumberCheck + "<br>");
         }
-        if (errorMessage != null) {
+        if(errorMessage.length()>2){
             throw new DuplilcateUserException(errorMessage.toString());
         }
 
