@@ -77,6 +77,7 @@ public class AppUserController{
     }
 
     @PatchMapping("/{id}")
+    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
     public ResponseEntity<AppUser> updateUser(@PathVariable("id") Long id, @RequestBody AppUser appUser) throws Exception {
         AppUser userToUpdate= appUserService.findById(id);
         String editEmail = null;
@@ -111,6 +112,26 @@ public class AppUserController{
         }
         try {
             System.out.println(userToUpdate);
+            appUserService.save(userToUpdate);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        return res;
+    }
+
+
+    @PatchMapping("edit-password/{id}")
+    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
+    public ResponseEntity<AppUser> updatePassword(@PathVariable("id") Long id, @RequestBody AppUser appUser) throws Exception {
+        AppUser userToUpdate= appUserService.findById(id);
+        String editPassword = null;
+        StringBuilder messageError=new StringBuilder("");
+        userToUpdate.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
+        if (messageError.length() > 2) {
+            throw new DuplilcateUserException(messageError.toString());
+        }
+        try {
             appUserService.save(userToUpdate);
         }catch (Exception e){
             e.printStackTrace();
