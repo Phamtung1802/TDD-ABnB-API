@@ -3,26 +3,20 @@ package com.TDD.ABnB.controller;
 
 import com.TDD.ABnB.exceptions.DuplilcateUserException;
 import com.TDD.ABnB.models.AppUser;
-import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.services.app_user_service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Properties;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/users")
 @CrossOrigin("*")
-public class AppUserController{
+public class AppUserController {
 
     @Autowired
     private AppUserService appUserService;
@@ -35,8 +29,8 @@ public class AppUserController{
     @Secured({"ROLE_USER"})
     public ResponseEntity<Iterable<AppUser>> showListUser() {
         Iterable<AppUser> appReviews = appUserService.findAll();
-        for (AppUser user:appReviews
-             ) {
+        for (AppUser user : appReviews
+        ) {
             user.setPassword(null);
         }
         ResponseEntity<Iterable<AppUser>> res = new ResponseEntity<Iterable<AppUser>>(appReviews, HttpStatus.ACCEPTED);
@@ -52,21 +46,20 @@ public class AppUserController{
 
     @PostMapping()
     public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) throws Exception {
-        String userCheck= appUserService.checkUserAvailability(appUser.getName());
-        String emailCheck= appUserService.checkEmailAvailability(appUser.getEmail());
-        String phoneNumberCheck= appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
-        StringBuilder errorMessage=new StringBuilder("");
-        if(userCheck!=null)
-        {
-            errorMessage.append(userCheck+"<br>");
+        String userCheck = appUserService.checkUserAvailability(appUser.getName());
+        String emailCheck = appUserService.checkEmailAvailability(appUser.getEmail());
+        String phoneNumberCheck = appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
+        StringBuilder errorMessage = new StringBuilder("");
+        if (userCheck != null) {
+            errorMessage.append(userCheck + "<br>");
         }
-        if(emailCheck!=null) {
+        if (emailCheck != null) {
             errorMessage.append(emailCheck + "<br>");
         }
-        if(phoneNumberCheck!=null) {
+        if (phoneNumberCheck != null) {
             errorMessage.append(phoneNumberCheck + "<br>");
         }
-        if(errorMessage.length()>2){
+        if (errorMessage.length() > 2) {
             throw new DuplilcateUserException(errorMessage.toString());
         }
 
@@ -78,24 +71,24 @@ public class AppUserController{
 
     @PatchMapping("/{id}")
     public ResponseEntity<AppUser> updateUser(@PathVariable("id") Long id, @RequestBody AppUser appUser) throws Exception {
-        AppUser userToUpdate= appUserService.findById(id);
+        AppUser userToUpdate = appUserService.findById(id);
         String editEmail = null;
-        String editPhone =  null;
-        boolean isEmailChanged=((appUser.getEmail()!=null)&&(appUser.getEmail().equals(userToUpdate.getEmail())));
-        boolean isPhoneChanged=((appUser.getPhoneNumber()!=null)&&(appUser.getPhoneNumber().equals(userToUpdate.getPhoneNumber())));
-        if(appUser.getAddress()!=null){
+        String editPhone = null;
+        boolean isEmailChanged = ((appUser.getEmail() != null) && (appUser.getEmail().equals(userToUpdate.getEmail())));
+        boolean isPhoneChanged = ((appUser.getPhoneNumber() != null) && (appUser.getPhoneNumber().equals(userToUpdate.getPhoneNumber())));
+        if (appUser.getAddress() != null) {
             userToUpdate.setAddress(appUser.getAddress());
         }
-        if(appUser.getRealName()!=null){
+        if (appUser.getRealName() != null) {
             userToUpdate.setRealName(appUser.getRealName());
         }
 
-        if(appUser.getEmail()!=null&&!isEmailChanged){
-            editEmail= appUserService.checkEmailAvailability(appUser.getEmail());
+        if (appUser.getEmail() != null && !isEmailChanged) {
+            editEmail = appUserService.checkEmailAvailability(appUser.getEmail());
             userToUpdate.setEmail(appUser.getEmail());
         }
-        if(appUser.getPhoneNumber()!=null&&!isPhoneChanged){
-            editPhone= appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
+        if (appUser.getPhoneNumber() != null && !isPhoneChanged) {
+            editPhone = appUserService.checkPhoneAvailability(appUser.getPhoneNumber());
             userToUpdate.setPhoneNumber(appUser.getPhoneNumber());
         }
 
@@ -112,7 +105,7 @@ public class AppUserController{
         try {
             System.out.println(userToUpdate);
             appUserService.save(userToUpdate);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -129,31 +122,22 @@ public class AppUserController{
     @PatchMapping("/password/{id}")
     public ResponseEntity<AppUser> changedPassword(@PathVariable("id") Long id, @RequestBody AppUser appUser) throws Exception {
         AppUser userUpdatePass = appUserService.findById(id);
-        String changePass = null;
 
-        boolean isPassword=((appUser.getPassword()!=null)&&(appUser.getPassword().equals(userUpdatePass.getPassword())));
-        changePass= appUserService.checkPassword(appUser.getPassword());
-        System.out.println("pass "+bCryptPasswordEncoder.encode(appUser.getPassword()));
+        if (Objects.isNull(appUser.getPassword()) || appUser.getPassword().equals("")) {
+            throw new DuplilcateUserException("Cant set password null or empty string");
+        }
+
+        boolean isNotPasswordChanged = bCryptPasswordEncoder.matches(appUser.getPassword(), userUpdatePass.getPassword());
+
+        if (isNotPasswordChanged) {
+            throw new DuplilcateUserException("Same as old password ");
+        }
         userUpdatePass.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
+        appUserService.save(userUpdatePass);
+        return new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
 
-
-        StringBuilder notificationError = new StringBuilder("");
-
-        if (changePass != null) {
-            notificationError.append(changePass + "<br>");
-        }
-
-        if (notificationError.length() > 2) {
-            throw new DuplilcateUserException(notificationError.toString());
-        }
-        try {
-            System.out.println(userUpdatePass.getPassword());
-            appUserService.save(userUpdatePass);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
-        return res;
     }
+
+
+
 }

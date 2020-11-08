@@ -1,6 +1,5 @@
 package com.TDD.ABnB.services.app_user_service;
 
-import com.TDD.ABnB.exceptions.DuplilcateUserException;
 import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.repositories.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,11 +79,4 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         }
     }
 
-    @Override
-    public String checkPassword(String password) {
-        if (appUserRepository.findFirstByPassword(password) != null) {
-                 return "Same as old password ";
-        }
-        return null;
-    }
 }

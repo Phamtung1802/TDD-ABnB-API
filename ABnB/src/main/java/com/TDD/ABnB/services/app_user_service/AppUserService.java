@@ -1,7 +1,6 @@
 package com.TDD.ABnB.services.app_user_service;
 
 import com.TDD.ABnB.exceptions.DuplilcateUserException;
-import com.TDD.ABnB.models.AppBooking;
 import com.TDD.ABnB.models.AppUser;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,6 @@ public interface AppUserService {
 
     public String checkPhoneAvailability(String phoneNumber) throws DuplilcateUserException, Exception;
 
-    public String checkPassword(String password) throws DuplilcateUserException, Exception;
 
     AppUser findFirstById (Long id);
 
