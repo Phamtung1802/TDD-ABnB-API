@@ -1,6 +1,7 @@
 package com.TDD.ABnB.controller;
 
 
+import com.TDD.ABnB.dto.ChangePassDTO;
 import com.TDD.ABnB.exceptions.DuplilcateUserException;
 import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.services.app_user_service.AppUserService;
@@ -44,7 +45,7 @@ public class AppUserController {
         return res;
     }
 
-    @PostMapping()
+    @PostMapping("")
     public ResponseEntity<AppUser> createUser(@RequestBody AppUser appUser) throws Exception {
         String userCheck = appUserService.checkUserAvailability(appUser.getName());
         String emailCheck = appUserService.checkEmailAvailability(appUser.getEmail());
@@ -120,24 +121,29 @@ public class AppUserController {
     }
 
     @PatchMapping("/password/{id}")
-    public ResponseEntity<AppUser> changedPassword(@PathVariable("id") Long id, @RequestBody AppUser appUser) throws Exception {
+    public ResponseEntity<AppUser> changedPassword(@PathVariable("id") Long id,
+                                                   @RequestBody() ChangePassDTO changePassDTO) throws Exception {
         AppUser userUpdatePass = appUserService.findById(id);
 
-        if (Objects.isNull(appUser.getPassword()) || appUser.getPassword().equals("")) {
+        if (Objects.isNull(changePassDTO.getPresentPass())
+                || changePassDTO.getPresentPass().equals("")
+        || !bCryptPasswordEncoder.matches(changePassDTO.getPresentPass(), userUpdatePass.getPassword())) {
+            throw new DuplilcateUserException("Wrong Pass");
+        }
+        if (Objects.isNull(changePassDTO.getNewPass()) || changePassDTO.getNewPass().equals("")) {
             throw new DuplilcateUserException("Cant set password null or empty string");
         }
 
-        boolean isNotPasswordChanged = bCryptPasswordEncoder.matches(appUser.getPassword(), userUpdatePass.getPassword());
+        boolean isNotPasswordChanged = bCryptPasswordEncoder.matches(changePassDTO.getNewPass(), userUpdatePass.getPassword());
 
         if (isNotPasswordChanged) {
             throw new DuplilcateUserException("Same as old password ");
         }
-        userUpdatePass.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
+        userUpdatePass.setPassword(bCryptPasswordEncoder.encode(changePassDTO.getNewPass()));
         appUserService.save(userUpdatePass);
-        return new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        return new ResponseEntity<AppUser>(userUpdatePass, HttpStatus.ACCEPTED);
 
     }
-
 
 
 }
