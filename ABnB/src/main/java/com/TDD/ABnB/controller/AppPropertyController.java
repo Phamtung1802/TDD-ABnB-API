@@ -45,6 +45,7 @@ public class AppPropertyController {
     public ResponseEntity<AppProperty> createProperty(@RequestBody AppProperty appProperty) {
         appPropertyService.save(appProperty);
         ResponseEntity<AppProperty> res=new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
+        System.out.println(appUserServiceImpl.findById(appProperty.getAppUser().getId()).getAppProperties());
         return res;
     }
 
