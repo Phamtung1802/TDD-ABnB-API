@@ -1,7 +1,9 @@
 package com.TDD.ABnB.models;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
@@ -11,7 +13,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "reviews")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class AppReview {
     @Id

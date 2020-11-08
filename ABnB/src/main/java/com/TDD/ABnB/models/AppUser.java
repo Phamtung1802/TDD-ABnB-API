@@ -1,7 +1,9 @@
 package com.TDD.ABnB.models;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,10 +14,13 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class AppUser implements Serializable {
     @Id
@@ -63,7 +68,7 @@ public class AppUser implements Serializable {
     @OneToMany
     private Collection<AppInvoice> appInvoices;
 
-    @OneToMany
+    @OneToMany(targetEntity = AppProperty.class)
     private Collection<AppProperty> appProperties;
 
 

@@ -1,9 +1,7 @@
 package com.TDD.ABnB.models;
 
 import com.fasterxml.jackson.annotation.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,7 +10,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "invoices")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"appPropertySet"})
 public class AppInvoice {

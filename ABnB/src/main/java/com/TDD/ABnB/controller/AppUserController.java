@@ -82,6 +82,7 @@ public class AppUserController{
         AppUser userToUpdate= appUserService.findById(id);
         String editEmail = null;
         String editPhone =  null;
+        appUser.setPassword(null);
         boolean isEmailChanged=((appUser.getEmail()!=null)&&(appUser.getEmail().equals(userToUpdate.getEmail())));
         boolean isPhoneChanged=((appUser.getPhoneNumber()!=null)&&(appUser.getPhoneNumber().equals(userToUpdate.getPhoneNumber())));
         if(appUser.getAddress()!=null){
@@ -116,7 +117,9 @@ public class AppUserController{
         }catch (Exception e){
             e.printStackTrace();
         }
-        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        System.out.println(userToUpdate);
+        userToUpdate.setPassword(null);
+        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(userToUpdate, HttpStatus.ACCEPTED);
         return res;
     }
 
@@ -136,7 +139,8 @@ public class AppUserController{
         }catch (Exception e){
             e.printStackTrace();
         }
-        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        System.out.println(userToUpdate);
+        ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(userToUpdate, HttpStatus.ACCEPTED);
         return res;
     }
 

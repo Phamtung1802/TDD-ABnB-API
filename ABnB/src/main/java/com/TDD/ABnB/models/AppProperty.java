@@ -1,9 +1,7 @@
 package com.TDD.ABnB.models;
 
 import com.fasterxml.jackson.annotation.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
@@ -16,7 +14,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "property")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"appInvoiceSet","appBookingSet"})
 public class AppProperty {
@@ -84,11 +83,12 @@ public class AppProperty {
     private Collection<AppReview> appReviews;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties("appProperties")
     private AppUser appUser;
 
-    @OneToMany
+    @OneToMany()
     private Collection<AppImage> appImages;
 
 
