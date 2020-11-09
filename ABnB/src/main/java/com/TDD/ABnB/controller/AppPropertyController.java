@@ -50,7 +50,7 @@ public class AppPropertyController {
 //    }
 
     @PostMapping()
-    public ResponseEntity<AppProperty> createProperty(@RequestBody AppProperty appProperty) {
+    public ResponseEntity<AppUser> createProperty(@RequestBody AppProperty appProperty) {
         AppUser appUser= appUserServiceImpl.findById(appProperty.getAppUser().getId());
         appUser.getAppProperties().add(appProperty);
         appProperty.setAppUser(appUser);
@@ -62,7 +62,7 @@ public class AppPropertyController {
 //            System.out.println(prop.getName());
 //        }
         appProperty.getAppUser().setPassword(null);
-        ResponseEntity<AppProperty> res=new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
+        ResponseEntity<AppUser> res=new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
         return res;
     }
 

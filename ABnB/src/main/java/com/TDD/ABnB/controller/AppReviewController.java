@@ -52,13 +52,6 @@ public class AppReviewController {
         appPropertyServiceImpl.save(appProperty);
         appUserServiceImpl.save(appUser);
         AppUser check=appUserServiceImpl.findById(appProperty.getAppUser().getId());
-        System.out.println(appReview.getAppUser().getName());
-
-//        for (AppReview prop: check.getAppReviews()
-//             ) {
-//            System.out.println("Property");
-//            System.out.println(prop.getComment());
-//        }
         appReview.getAppUser().setPassword(null);
         ResponseEntity<AppReview> res=new ResponseEntity<AppReview>(appReview, HttpStatus.ACCEPTED);
         return  res;
