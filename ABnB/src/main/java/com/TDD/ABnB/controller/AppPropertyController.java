@@ -2,18 +2,28 @@ package com.TDD.ABnB.controller;
 
 import com.TDD.ABnB.models.AppInvoice;
 import com.TDD.ABnB.models.AppProperty;
+import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.services.app_property_service.AppPropertyService;
+import com.TDD.ABnB.services.app_user_service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @RestController
 @RequestMapping("/property")
+@CrossOrigin("*")
 public class AppPropertyController {
 
     @Autowired
     private AppPropertyService appPropertyService;
+
+    @Autowired
+    private AppUserService appUserServiceImpl;
+
 
     @GetMapping()
     public ResponseEntity<Iterable<AppProperty>> showListProperty() {
@@ -35,6 +45,7 @@ public class AppPropertyController {
     public ResponseEntity<AppProperty> createProperty(@RequestBody AppProperty appProperty) {
         appPropertyService.save(appProperty);
         ResponseEntity<AppProperty> res=new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
+        System.out.println(appUserServiceImpl.findById(appProperty.getAppUser().getId()).getAppProperties());
         return res;
     }
 

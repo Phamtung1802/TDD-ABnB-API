@@ -42,6 +42,7 @@ public class JwtAuthenticationController {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails);
+        System.out.println("token authenticating");
         return ResponseEntity.ok(new JwtResponse(token));
     }
     @PostMapping(path = "/token-authenticate")
@@ -52,6 +53,7 @@ public class JwtAuthenticationController {
         String username=jwtTokenUtil.getUsernameFromToken(jwtToken);
         AppUser appUser = appUserServiceImpl.findFirstByName(username);
         appUser.setPassword(null);
+        System.out.println("token authenticating");
         return new ResponseEntity<AppUser>(appUser,HttpStatus.ACCEPTED);
     }
 

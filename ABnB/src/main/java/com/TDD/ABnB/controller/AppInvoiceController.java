@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/invoices")
+@CrossOrigin("*")
 public class AppInvoiceController {
 
     @Autowired
