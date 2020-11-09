@@ -1,8 +1,12 @@
 package com.TDD.ABnB.controller;
 
+import com.TDD.ABnB.models.AppProperty;
 import com.TDD.ABnB.models.AppReview;
 import com.TDD.ABnB.models.AppReview;
+import com.TDD.ABnB.models.AppUser;
+import com.TDD.ABnB.services.app_property_service.AppPropertyService;
 import com.TDD.ABnB.services.app_review_service.AppReviewService;
+import com.TDD.ABnB.services.app_user_service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +19,13 @@ public class AppReviewController {
 
     @Autowired
     private AppReviewService appReviewService;
+
+    @Autowired
+    private AppUserService appUserServiceImpl;
+
+    @Autowired
+    private AppPropertyService appPropertyServiceImpl;
+
 
     @GetMapping()
     public ResponseEntity<Iterable<AppReview>> showListReview() {
@@ -32,9 +43,25 @@ public class AppReviewController {
 
     @PostMapping()
     public ResponseEntity<AppReview> createReview(@RequestBody AppReview appReview) {
-        appReviewService.save(appReview);
+        AppUser appUser= appUserServiceImpl.findById(appReview.getAppUser().getId());
+        AppProperty appProperty= appPropertyServiceImpl.findById(appReview.getAppProperty().getId());
+        appReview.setAppProperty(appProperty);
+        appReview.setAppUser(appUser);
+        appProperty.getAppReviews().add(appReview);
+        appUser.getAppReviews().add(appReview);
+        appPropertyServiceImpl.save(appProperty);
+        appUserServiceImpl.save(appUser);
+        AppUser check=appUserServiceImpl.findById(appProperty.getAppUser().getId());
+        System.out.println(appReview.getAppUser().getName());
+
+//        for (AppReview prop: check.getAppReviews()
+//             ) {
+//            System.out.println("Property");
+//            System.out.println(prop.getComment());
+//        }
+        appReview.getAppUser().setPassword(null);
         ResponseEntity<AppReview> res=new ResponseEntity<AppReview>(appReview, HttpStatus.ACCEPTED);
-        return res;
+        return  res;
     }
 
     @PutMapping("/{id}")

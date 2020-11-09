@@ -61,6 +61,7 @@ public class AppPropertyController {
 //            System.out.println("");
 //            System.out.println(prop.getName());
 //        }
+        appProperty.getAppUser().setPassword(null);
         ResponseEntity<AppProperty> res=new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
         return res;
     }

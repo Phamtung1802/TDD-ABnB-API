@@ -1,5 +1,6 @@
 package com.TDD.ABnB.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,7 @@ public class AppReview {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"appProperties","appReviews"})
     private AppUser appUser;
 
     @Column(name="review_date")
@@ -43,6 +45,7 @@ public class AppReview {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "property_id")
+    @JsonIgnoreProperties({"appUser","appReviews"})
     private AppProperty appProperty;
 
 
