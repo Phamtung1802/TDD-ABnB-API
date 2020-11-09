@@ -79,13 +79,13 @@ public class AppProperty {
     @JsonIgnoreProperties("appPropertySet")
     Set<AppBooking> appBookingSet;
 
-    @OneToMany
-    private Collection<AppReview> appReviews;
+    @OneToMany(targetEntity = AppReview.class, cascade = CascadeType.ALL, mappedBy = "appUser")
+    private Set<AppReview> appReviews=new HashSet<AppReview>();
 
     @NotNull
     @ManyToOne()
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties("appProperties")
+    @JsonIgnoreProperties({"appProperties","appReviews"})
     private AppUser appUser;
 
     @OneToMany()

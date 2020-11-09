@@ -59,8 +59,8 @@ public class AppUser implements Serializable {
     @JoinColumn(name = "role_id")
     private AppRole appRole;
 
-    @OneToMany
-    private Collection<AppReview> appReviews;
+    @OneToMany(targetEntity = AppReview.class, cascade = CascadeType.ALL, mappedBy = "appUser")
+    private Set<AppReview> appReviews=new HashSet<AppReview>();
 
     @OneToMany
     private Collection<AppBooking> appBookings;
