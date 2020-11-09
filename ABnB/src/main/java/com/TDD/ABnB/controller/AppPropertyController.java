@@ -56,11 +56,11 @@ public class AppPropertyController {
         appProperty.setAppUser(appUser);
         appUserServiceImpl.save(appUser);
         AppUser check=appUserServiceImpl.findById(appProperty.getAppUser().getId());
-        for (AppProperty prop: check.getAppProperties()
-             ) {
-            System.out.println("");
-            System.out.println(prop.getName());
-        }
+//        for (AppProperty prop: check.getAppProperties()
+//             ) {
+//            System.out.println("");
+//            System.out.println(prop.getName());
+//        }
         ResponseEntity<AppProperty> res=new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
         return res;
     }
