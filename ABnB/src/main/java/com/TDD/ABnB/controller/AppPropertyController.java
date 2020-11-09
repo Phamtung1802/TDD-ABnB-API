@@ -1,6 +1,5 @@
 package com.TDD.ABnB.controller;
 
-import com.TDD.ABnB.models.AppInvoice;
 import com.TDD.ABnB.models.AppProperty;
 import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.services.app_property_service.AppPropertyService;
@@ -10,8 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/property")
@@ -32,13 +30,20 @@ public class AppPropertyController {
         return res;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/house/{id}")
     public ResponseEntity<AppProperty> showProperty(@PathVariable("id") Long id) {
         AppProperty appProperty= appPropertyService.findById(id);
         ResponseEntity<AppProperty> res=new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
         return res;
 
     }
+
+   @GetMapping("/all")
+   public ResponseEntity<List<AppProperty>> showHouseAddress(@RequestBody String address) {
+        List<AppProperty> appProperties = appPropertyService.findAllByAddressContaining(address);
+        ResponseEntity<List<AppProperty>> res = new ResponseEntity<List<AppProperty>>(appProperties, HttpStatus.ACCEPTED);
+        return res;
+   }
 
 //    tinh nang da xong
 //    @PostMapping()

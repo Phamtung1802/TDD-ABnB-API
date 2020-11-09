@@ -15,4 +15,6 @@ public interface AppPropertyService {
 
     void delete(AppProperty appProperty);
 
+    List<AppProperty> findAllByAddressContaining(String address);
+
 }
