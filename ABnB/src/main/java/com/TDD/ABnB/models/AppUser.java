@@ -68,8 +68,8 @@ public class AppUser implements Serializable {
     @OneToMany
     private Collection<AppInvoice> appInvoices;
 
-    @OneToMany(targetEntity = AppProperty.class)
-    private Collection<AppProperty> appProperties;
+    @OneToMany(targetEntity = AppProperty.class, cascade = CascadeType.ALL, mappedBy = "appUser")
+    private Set<AppProperty> appProperties=new HashSet<AppProperty>();
 
 
 }

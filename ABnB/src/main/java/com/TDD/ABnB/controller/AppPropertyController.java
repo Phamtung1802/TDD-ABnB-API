@@ -40,14 +40,31 @@ public class AppPropertyController {
 
     }
 
+//    tinh nang da xong
+//    @PostMapping()
+//    public ResponseEntity<AppProperty> createProperty(@RequestBody AppProperty appProperty) {
+//        appPropertyService.save(appProperty);
+//        ResponseEntity<AppProperty> res=new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
+//        System.out.println(appUserServiceImpl.findById(appProperty.getAppUser().getId()).getAppProperties());
+//        return res;
+//    }
 
     @PostMapping()
     public ResponseEntity<AppProperty> createProperty(@RequestBody AppProperty appProperty) {
-        appPropertyService.save(appProperty);
+        AppUser appUser= appUserServiceImpl.findById(appProperty.getAppUser().getId());
+        appUser.getAppProperties().add(appProperty);
+        appProperty.setAppUser(appUser);
+        appUserServiceImpl.save(appUser);
+        AppUser check=appUserServiceImpl.findById(appProperty.getAppUser().getId());
+        for (AppProperty prop: check.getAppProperties()
+             ) {
+            System.out.println("");
+            System.out.println(prop.getName());
+        }
         ResponseEntity<AppProperty> res=new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
-        System.out.println(appUserServiceImpl.findById(appProperty.getAppUser().getId()).getAppProperties());
         return res;
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<AppProperty> updateProperty(@PathVariable("id") Long id, @RequestBody AppProperty appProperty) {
