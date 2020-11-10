@@ -61,8 +61,6 @@ public class AppPropertyController {
         ) {
             image.setAppProperty(appProperty);
         }
-        appProperty.setAppImages(images);
-        appProperty = appPropertyService.save(appProperty);
         appUser.getAppProperties().add(appProperty);
         appUserServiceImpl.save(appUser);
         appProperty.getAppUser().setPassword(null);
