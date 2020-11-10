@@ -47,9 +47,9 @@ public class AppReviewController {
         AppProperty appProperty= appPropertyServiceImpl.findById(appReview.getAppProperty().getId());
         appReview.setAppProperty(appProperty);
         appReview.setAppUser(appUser);
-        appProperty.getAppReviews().add(appReview);
+//        appProperty.getAppReviews().add(appReview);
         appUser.getAppReviews().add(appReview);
-        appPropertyServiceImpl.save(appProperty);
+//        appPropertyServiceImpl.save(appProperty);
         appUserServiceImpl.save(appUser);
         AppUser check=appUserServiceImpl.findById(appProperty.getAppUser().getId());
         appReview.getAppUser().setPassword(null);
