@@ -1,5 +1,6 @@
 package com.TDD.ABnB.controller;
 
+import com.TDD.ABnB.models.AppImage;
 import com.TDD.ABnB.models.AppInvoice;
 import com.TDD.ABnB.models.AppProperty;
 import com.TDD.ABnB.models.AppUser;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,15 +54,17 @@ public class AppPropertyController {
     @PostMapping()
     public ResponseEntity<AppUser> createProperty(@RequestBody AppProperty appProperty) {
         AppUser appUser= appUserServiceImpl.findById(appProperty.getAppUser().getId());
-        appUser.getAppProperties().add(appProperty);
+        ArrayList<AppImage> images=new ArrayList<AppImage>();
         appProperty.setAppUser(appUser);
+        appProperty = appPropertyService.save(appProperty);
+        for (AppImage image: appProperty.getAppImages()
+        ) {
+            image.setAppProperty(appProperty);
+        }
+        appProperty.setAppImages(images);
+        appProperty = appPropertyService.save(appProperty);
+        appUser.getAppProperties().add(appProperty);
         appUserServiceImpl.save(appUser);
-        AppUser check=appUserServiceImpl.findById(appProperty.getAppUser().getId());
-//        for (AppProperty prop: check.getAppProperties()
-//             ) {
-//            System.out.println("");
-//            System.out.println(prop.getName());
-//        }
         appProperty.getAppUser().setPassword(null);
         ResponseEntity<AppUser> res=new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
         return res;

@@ -8,9 +8,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "property")
@@ -79,7 +77,7 @@ public class AppProperty {
     @JsonIgnoreProperties("appPropertySet")
     Set<AppBooking> appBookingSet;
 
-    @OneToMany(targetEntity = AppReview.class, cascade = CascadeType.ALL, mappedBy = "appUser")
+    @OneToMany(targetEntity = AppReview.class, cascade = CascadeType.ALL, mappedBy = "appProperty")
     private Set<AppReview> appReviews=new HashSet<AppReview>();
 
     @NotNull
@@ -88,11 +86,9 @@ public class AppProperty {
     @JsonIgnoreProperties({"appProperties","appReviews"})
     private AppUser appUser;
 
-    @OneToMany()
-    private Collection<AppImage> appImages;
+    @OneToMany(targetEntity = AppImage.class, cascade = CascadeType.ALL, mappedBy = "appProperty")
+    @JsonIgnoreProperties({"appProperty"})
 
-
-
-
+    private List<AppImage> appImages;
 
 }
