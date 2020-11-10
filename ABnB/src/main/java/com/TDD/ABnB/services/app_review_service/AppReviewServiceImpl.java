@@ -21,8 +21,8 @@ public class AppReviewServiceImpl implements AppReviewService {
     }
 
     @Override
-    public List<AppReview> findAllByComment(AppProperty appProperty) {
-        return appReviewRepository.findAllByComment(appProperty);
+    public List<AppReview> findAllByAppProperty(AppProperty appProperty) {
+        return appReviewRepository.findAllByAppProperty(appProperty);
     }
 
 

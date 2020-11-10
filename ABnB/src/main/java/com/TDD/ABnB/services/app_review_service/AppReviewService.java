@@ -11,7 +11,7 @@ public interface AppReviewService {
 
     Iterable<AppReview> findAll();
 
-    List<AppReview> findAllByComment(AppProperty appProperty);
+    List<AppReview> findAllByAppProperty(AppProperty appProperty);
 
 
     AppReview findById(Long id);

@@ -43,12 +43,12 @@ public class AppReviewController {
     }
 
     @GetMapping("/all/{id}")
-    public ResponseEntity<List<AppReview>> showHouseReview(@PathVariable("id") String id) {
+    public ResponseEntity<List<AppReview>> showHouseReview(@PathVariable("id") Long id) {
         System.out.println("dung controller");
         System.out.println("parameter "+ id);
-        AppProperty appProperty = appPropertyServiceImpl.findById((long)Long.parseLong(id));
+        AppProperty appProperty = appPropertyServiceImpl.findById(id);
         System.out.println("da lay duoc prop");
-        List<AppReview> appReviews = appReviewService.findAllByComment(appProperty);
+        List<AppReview> appReviews = appReviewService.findAllByAppProperty(appProperty);
         ResponseEntity<List<AppReview>> res = new ResponseEntity<>(appReviews, HttpStatus.ACCEPTED);
         return res;
 

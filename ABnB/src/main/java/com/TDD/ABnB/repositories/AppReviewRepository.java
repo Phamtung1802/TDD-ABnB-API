@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface AppReviewRepository extends PagingAndSortingRepository<AppReview,Long> {
-    List<AppReview> findAllByComment(AppProperty appProperty);
+    List<AppReview> findAllByAppProperty(AppProperty appProperty);
+
 }
