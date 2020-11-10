@@ -5,11 +5,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface AppReviewService {
+
     Iterable<AppReview> findAll();
+
 
     AppReview findById(Long id);
 
     AppReview save(AppReview appReview);
 
     void delete(AppReview appReview);
+
+
 }

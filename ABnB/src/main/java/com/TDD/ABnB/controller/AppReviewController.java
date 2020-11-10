@@ -2,7 +2,6 @@ package com.TDD.ABnB.controller;
 
 import com.TDD.ABnB.models.AppProperty;
 import com.TDD.ABnB.models.AppReview;
-import com.TDD.ABnB.models.AppReview;
 import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.services.app_property_service.AppPropertyService;
 import com.TDD.ABnB.services.app_review_service.AppReviewService;
@@ -27,14 +26,14 @@ public class AppReviewController {
     private AppPropertyService appPropertyServiceImpl;
 
 
-    @GetMapping()
+    @GetMapping("")
     public ResponseEntity<Iterable<AppReview>> showListReview() {
         Iterable<AppReview> appReviews=appReviewService.findAll();
         ResponseEntity<Iterable<AppReview>> res=new ResponseEntity<Iterable<AppReview>>(appReviews, HttpStatus.ACCEPTED);
         return res;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/house/{id}")
     public ResponseEntity<AppReview> showReview(@PathVariable("id") Long id) {
         AppReview appReview= appReviewService.findById(id);
         ResponseEntity<AppReview> res=new ResponseEntity<AppReview>(appReview, HttpStatus.ACCEPTED);
@@ -48,17 +47,11 @@ public class AppReviewController {
         appReview.setAppProperty(appProperty);
         appReview.setAppUser(appUser);
         appProperty.getAppReviews().add(appReview);
-        appUser.getAppReviews().add(appReview);
+      //  appUser.getAppReviews().add(appReview);
         appPropertyServiceImpl.save(appProperty);
-        appUserServiceImpl.save(appUser);
+      //  appUserServiceImpl.save(appUser);
         AppUser check=appUserServiceImpl.findById(appProperty.getAppUser().getId());
         System.out.println(appReview.getAppUser().getName());
-
-//        for (AppReview prop: check.getAppReviews()
-//             ) {
-//            System.out.println("Property");
-//            System.out.println(prop.getComment());
-//        }
         appReview.getAppUser().setPassword(null);
         ResponseEntity<AppReview> res=new ResponseEntity<AppReview>(appReview, HttpStatus.ACCEPTED);
         return  res;

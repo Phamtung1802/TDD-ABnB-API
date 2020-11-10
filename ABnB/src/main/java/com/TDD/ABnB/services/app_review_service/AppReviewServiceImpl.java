@@ -11,10 +11,12 @@ public class AppReviewServiceImpl implements AppReviewService {
     @Autowired
     private AppReviewRepository appReviewRepository;
 
+
     @Override
     public Iterable<AppReview> findAll() {
         return appReviewRepository.findAll();
     }
+
 
     @Override
     public AppReview findById(Long id) {
@@ -30,4 +32,7 @@ public class AppReviewServiceImpl implements AppReviewService {
     public void delete(AppReview appReview) {
             appReviewRepository.delete(appReview);
     }
+
+
+
 }
