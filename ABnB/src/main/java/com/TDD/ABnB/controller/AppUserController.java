@@ -3,21 +3,13 @@ package com.TDD.ABnB.controller;
 
 import com.TDD.ABnB.exceptions.DuplilcateUserException;
 import com.TDD.ABnB.models.AppUser;
-import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.services.app_user_service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Properties;
 
 @RestController
 @RequestMapping("/users")
@@ -143,6 +135,32 @@ public class AppUserController{
         ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(userToUpdate, HttpStatus.ACCEPTED);
         return res;
     }
+
+//    @PatchMapping("edit-password/{id}")
+//    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
+//    public ResponseEntity<AppUser> changedPassword(@PathVariable("id") Long id,
+//                                                   @RequestBody() ChangePassDTO changePassDTO) throws Exception {
+//        AppUser userUpdatePass = appUserService.findById(id);
+//
+//        if (Objects.isNull(changePassDTO.getPresentPass())
+//                || changePassDTO.getPresentPass().equals("")
+//                || !bCryptPasswordEncoder.matches(changePassDTO.getPresentPass(), userUpdatePass.getPassword())) {
+//            throw new DuplilcateUserException("Wrong Pass");
+//        }
+//        if (Objects.isNull(changePassDTO.getNewPass()) || changePassDTO.getNewPass().equals("")) {
+//            throw new DuplilcateUserException("Cant set password null or empty string");
+//        }
+//
+//        boolean isNotPasswordChanged = bCryptPasswordEncoder.matches(changePassDTO.getNewPass(), userUpdatePass.getPassword());
+//
+//        if (isNotPasswordChanged) {
+//            throw new DuplilcateUserException("Same as old password ");
+//        }
+//        userUpdatePass.setPassword(bCryptPasswordEncoder.encode(changePassDTO.getNewPass()));
+//        appUserService.save(userUpdatePass);
+//        return new ResponseEntity<AppUser>(userUpdatePass, HttpStatus.ACCEPTED);
+//
+//    }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") Long id) {

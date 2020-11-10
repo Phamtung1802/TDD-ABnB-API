@@ -1,10 +1,8 @@
 package com.TDD.ABnB.controller;
 
 import com.TDD.ABnB.models.AppBooking;
-import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.services.app_booking_service.AppBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +32,7 @@ public class AppBookingController {
     @PostMapping()
     public ResponseEntity<AppBooking> createBooking(@RequestBody AppBooking appBooking) {
         appBookingService.save(appBooking);
-        ResponseEntity<AppBooking> res=new ResponseEntity<AppBooking>(appBooking, HttpStatus.ACCEPTED);
+        ResponseEntity<AppBooking> res = new ResponseEntity<>(appBooking, HttpStatus.ACCEPTED);
         return res;
     }
 
