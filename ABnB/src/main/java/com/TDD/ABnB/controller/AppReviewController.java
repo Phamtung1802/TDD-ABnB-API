@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/reviews")
 @CrossOrigin("*")
@@ -33,11 +35,23 @@ public class AppReviewController {
         return res;
     }
 
-    @GetMapping("/house/{id}")
+    @GetMapping("/review/{id}")
     public ResponseEntity<AppReview> showReview(@PathVariable("id") Long id) {
         AppReview appReview= appReviewService.findById(id);
         ResponseEntity<AppReview> res=new ResponseEntity<AppReview>(appReview, HttpStatus.ACCEPTED);
         return res;
+    }
+
+    @GetMapping("/all/{id}")
+    public ResponseEntity<List<AppReview>> showHouseReview(@PathVariable("id") String id) {
+        System.out.println("dung controller");
+        System.out.println("parameter "+ id);
+        AppProperty appProperty = appPropertyServiceImpl.findById((long)Long.parseLong(id));
+        System.out.println("da lay duoc prop");
+        List<AppReview> appReviews = appReviewService.findAllByComment(appProperty);
+        ResponseEntity<List<AppReview>> res = new ResponseEntity<>(appReviews, HttpStatus.ACCEPTED);
+        return res;
+
     }
 
     @PostMapping()

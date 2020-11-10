@@ -1,9 +1,12 @@
 package com.TDD.ABnB.services.app_review_service;
 
+import com.TDD.ABnB.models.AppProperty;
 import com.TDD.ABnB.models.AppReview;
 import com.TDD.ABnB.repositories.AppReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AppReviewServiceImpl implements AppReviewService {
@@ -15,6 +18,11 @@ public class AppReviewServiceImpl implements AppReviewService {
     @Override
     public Iterable<AppReview> findAll() {
         return appReviewRepository.findAll();
+    }
+
+    @Override
+    public List<AppReview> findAllByComment(AppProperty appProperty) {
+        return appReviewRepository.findAllByComment(appProperty);
     }
 
 
