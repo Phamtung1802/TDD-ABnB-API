@@ -2,7 +2,6 @@ package com.TDD.ABnB.controller;
 
 import com.TDD.ABnB.models.AppProperty;
 import com.TDD.ABnB.models.AppReview;
-import com.TDD.ABnB.models.AppReview;
 import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.services.app_property_service.AppPropertyService;
 import com.TDD.ABnB.services.app_review_service.AppReviewService;
@@ -11,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/reviews")
@@ -34,10 +35,18 @@ public class AppReviewController {
         return res;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/review/{id}")
     public ResponseEntity<AppReview> showReview(@PathVariable("id") Long id) {
         AppReview appReview= appReviewService.findById(id);
         ResponseEntity<AppReview> res=new ResponseEntity<AppReview>(appReview, HttpStatus.ACCEPTED);
+        return res;
+    }
+
+    @GetMapping("/all/{id}")
+    public ResponseEntity<List<AppReview>> showHouseReview(@PathVariable("id") Long id) {
+        AppProperty appProperty = appPropertyServiceImpl.findById(id);
+        List<AppReview> appReviews = appReviewService.findAllByAppProperty(appProperty);
+        ResponseEntity<List<AppReview>> res = new ResponseEntity<>(appReviews, HttpStatus.ACCEPTED);
         return res;
     }
 
