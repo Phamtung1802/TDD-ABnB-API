@@ -1,6 +1,7 @@
 package com.TDD.ABnB.services.app_booking_service;
 
 import com.TDD.ABnB.models.AppBooking;
+import com.TDD.ABnB.models.AppProperty;
 import com.TDD.ABnB.repositories.AppBookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,4 +31,10 @@ public class AppBookingServiceImpl implements AppBookingService {
     public void delete(AppBooking appBooking) {
         appBookingRepository.delete(appBooking);
     }
+
+    @Override
+    public Iterable<AppBooking> findAllByAppProperty(AppProperty appProperty){
+        return appBookingRepository.findAllByAppProperty(appProperty);
+    }
+
 }

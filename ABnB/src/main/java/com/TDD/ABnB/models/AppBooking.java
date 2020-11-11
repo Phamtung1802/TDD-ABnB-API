@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"appPropertySet"})
+@EqualsAndHashCode(exclude = {"appProperty"})
 public class AppBooking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,13 +30,11 @@ public class AppBooking {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"appInvoiceSet","appBookingSet","appReviews","appBookingSet","appProperties"})
     private AppUser appUser;
 
-    @ManyToMany
-    @JoinTable(
-            name = "app_property_booking",
-            joinColumns = @JoinColumn(name = "booking_id"),
-            inverseJoinColumns = @JoinColumn(name = "property_id"))
-    @JsonIgnoreProperties({"appInvoiceSet","appBookingSet"})
-    Set<AppProperty> appPropertySet;
+    @ManyToOne()
+    @JoinColumn(name = "property_id")
+    @JsonIgnoreProperties({"appInvoiceSet","appBookingSet","appReviews","appBookingSet","appImages"})
+    AppProperty appProperty;
 }
