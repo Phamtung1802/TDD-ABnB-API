@@ -43,14 +43,16 @@ public class AppReviewController {
 
     @PostMapping()
     public ResponseEntity<AppReview> createReview(@RequestBody AppReview appReview) {
+        System.out.println("Reviews");
         AppUser appUser= appUserServiceImpl.findById(appReview.getAppUser().getId());
         AppProperty appProperty= appPropertyServiceImpl.findById(appReview.getAppProperty().getId());
         appReview.setAppProperty(appProperty);
         appReview.setAppUser(appUser);
-//        appProperty.getAppReviews().add(appReview);
+        appReviewService.save(appReview);
         appUser.getAppReviews().add(appReview);
-//        appPropertyServiceImpl.save(appProperty);
         appUserServiceImpl.save(appUser);
+        appProperty.getAppReviews().add(appReview);
+        appPropertyServiceImpl.save(appProperty);
         AppUser check=appUserServiceImpl.findById(appProperty.getAppUser().getId());
         appReview.getAppUser().setPassword(null);
         ResponseEntity<AppReview> res=new ResponseEntity<AppReview>(appReview, HttpStatus.ACCEPTED);
