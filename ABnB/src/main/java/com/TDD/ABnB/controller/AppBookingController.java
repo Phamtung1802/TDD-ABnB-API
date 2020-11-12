@@ -2,6 +2,7 @@ package com.TDD.ABnB.controller;
 
 import com.TDD.ABnB.exceptions.DuplilcateUserException;
 import com.TDD.ABnB.models.AppBooking;
+import com.TDD.ABnB.models.AppProperty;
 import com.TDD.ABnB.services.app_booking_service.AppBookingService;
 import com.TDD.ABnB.services.app_property_service.AppPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,18 @@ public class AppBookingController {
         return res;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/house/{id}")
     public ResponseEntity<AppBooking> showBooking(@PathVariable("id") Long id) {
         AppBooking appBooking= appBookingService.findById(id);
         ResponseEntity<AppBooking> res=new ResponseEntity<AppBooking>(appBooking, HttpStatus.ACCEPTED);
+        return res;
+    }
+
+    @GetMapping("/all/{id}")
+    public ResponseEntity<Iterable<AppBooking>> showHouseBooking(@PathVariable("id") Long id) {
+        AppProperty appProperty = appPropertyServiceImpl.findById(id);
+        Iterable<AppBooking> appBookings = appBookingService.findAllByAppProperty(appProperty);
+        ResponseEntity<Iterable<AppBooking>> res = new ResponseEntity<>(appBookings, HttpStatus.ACCEPTED);
         return res;
     }
 
