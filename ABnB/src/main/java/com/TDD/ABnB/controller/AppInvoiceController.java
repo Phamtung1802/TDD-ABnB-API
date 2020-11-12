@@ -1,16 +1,17 @@
 package com.TDD.ABnB.controller;
 
-import com.TDD.ABnB.models.AppImage;
 import com.TDD.ABnB.models.AppInvoice;
 import com.TDD.ABnB.services.app_invoice_service.AppInvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/invoices")
 @CrossOrigin("*")
+@Secured("ROLE_ADMIN")
 public class AppInvoiceController {
 
     @Autowired
