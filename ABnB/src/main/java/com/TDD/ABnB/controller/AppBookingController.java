@@ -47,15 +47,17 @@ public class AppBookingController {
         Date checkoutDate= new SimpleDateFormat("yyyy-MM-dd").parse(appBooking.getCheckoutDate());
         Iterable<AppBooking> bookings= appBookingService.findAllByAppProperty(appPropertyServiceImpl.findById(appBooking.getAppProperty().getId()));
         for(AppBooking booking: bookings) {
-            Date checkoutDateEx = new SimpleDateFormat("yyyy-MM-dd").parse(booking.getCheckinDate());
+            Date checkoutDateEx = new SimpleDateFormat("yyyy-MM-dd").parse(booking.getCheckoutDate());
+            Date checkinDateEx = new SimpleDateFormat("yyyy-MM-dd").parse(booking.getCheckinDate());
             boolean bookingDateValid= checkinDate.after(checkoutDate);
             System.out.println("checkin");
             System.out.println(checkinDate);
             System.out.println("checkout");
             System.out.println(checkoutDateEx);
             boolean checkinDateValid= checkinDate.after(checkoutDateEx);
+            boolean checkOutDateValid= checkoutDate.before(checkinDateEx);
             System.out.println(checkinDateValid);
-            if(!bookingDateValid && !checkinDateValid){
+            if(!bookingDateValid && (!checkinDateValid||!checkOutDateValid)) {
                 throw new DuplilcateUserException("Booking unavailable");
             }
         }

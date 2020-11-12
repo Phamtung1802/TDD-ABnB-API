@@ -68,6 +68,18 @@ public class AppPropertyController {
         return res;
     }
 
+    @PatchMapping()
+    public ResponseEntity<AppUser> updatePropertyStatus(@RequestBody AppProperty appProperty) {
+        AppProperty appProperty1= appPropertyService.findById(appProperty.getId());
+        System.out.println(appProperty1.getName());
+        System.out.println(appProperty.getStatus());
+        appProperty1.setStatus(appProperty.getStatus());
+        appPropertyService.save(appProperty1);
+        AppUser appUser= appUserServiceImpl.findById(appProperty1.getAppUser().getId());
+        ResponseEntity<AppUser> res=new ResponseEntity<AppUser>(appUser, HttpStatus.ACCEPTED);
+        return res;
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<AppProperty> updateProperty(@PathVariable("id") Long id, @RequestBody AppProperty appProperty) {

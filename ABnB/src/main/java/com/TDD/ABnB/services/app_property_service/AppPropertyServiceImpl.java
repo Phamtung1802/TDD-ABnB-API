@@ -1,6 +1,7 @@
 package com.TDD.ABnB.services.app_property_service;
 
 import com.TDD.ABnB.models.AppProperty;
+import com.TDD.ABnB.models.AppUser;
 import com.TDD.ABnB.repositories.AppPropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,4 +37,10 @@ public class AppPropertyServiceImpl implements AppPropertyService {
     public List<AppProperty> findAllByAddress(String address) {
         return appPropertyRepository.findAllByAddress(address);
     }
+
+    @Override
+    public List<AppProperty> findAllByAppUser(AppUser appUser){
+        return appPropertyRepository.findAllByAppUser(appUser);
+    }
+
 }
