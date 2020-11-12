@@ -30,11 +30,11 @@ public class AppBooking {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties({"appInvoiceSet","appBookingSet","appReviews","appBookingSet","appProperties"})
+    @JsonIgnoreProperties({"appBookings","appProperties","appReviews"})
     private AppUser appUser;
 
     @ManyToOne()
     @JoinColumn(name = "property_id")
-    @JsonIgnoreProperties({"appInvoiceSet","appBookingSet","appReviews","appBookingSet","appImages"})
+    @JsonIgnoreProperties({"appInvoiceSet","appBookings","appReviews","appImages"})
     AppProperty appProperty;
 }

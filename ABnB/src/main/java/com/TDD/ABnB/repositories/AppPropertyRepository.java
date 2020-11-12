@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface AppPropertyRepository extends PagingAndSortingRepository<AppProperty,Long> {
-    List<AppProperty> findAllByAddress(String address);
+    List<AppProperty> findAllByAddressContaining(String address);
     List<AppProperty> findAllByAppUser(AppUser appUser);
+    List<AppProperty> findAll();
 }

@@ -74,8 +74,8 @@ public class AppProperty {
     Set<AppInvoice> appInvoiceSet;
 
     @OneToMany(targetEntity = AppBooking.class, cascade = CascadeType.ALL, mappedBy = "appProperty")
-    @JsonIgnoreProperties("appProperty")
-    Set<AppBooking> appBookingSet = new HashSet<AppBooking>();
+    @JsonIgnoreProperties({"appProperty"})
+    private Set<AppBooking> appBookings= new HashSet<AppBooking>();
 
     @OneToMany(targetEntity = AppReview.class, cascade = CascadeType.ALL, mappedBy = "appProperty")
     private Set<AppReview> appReviews=new HashSet<AppReview>();
@@ -83,7 +83,7 @@ public class AppProperty {
     @NotNull
     @ManyToOne()
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties({"appProperties","appReviews"})
+    @JsonIgnoreProperties({"appProperties","appReviews","appBookings"})
     private AppUser appUser;
 
     @OneToMany(targetEntity = AppImage.class, cascade = CascadeType.ALL, mappedBy = "appProperty")

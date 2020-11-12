@@ -8,7 +8,9 @@ import java.util.List;
 
 @Service
 public interface AppPropertyService {
-    Iterable<AppProperty> findAll();
+    List<AppProperty> findAll();
+
+    Iterable<AppProperty> findByAddress(String address);
 
     AppProperty findById(Long id);
 

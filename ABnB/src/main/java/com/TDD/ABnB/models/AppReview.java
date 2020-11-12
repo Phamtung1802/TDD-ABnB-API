@@ -34,7 +34,7 @@ public class AppReview {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties({"appProperties","appReviews"})
+    @JsonIgnoreProperties({"appProperties","appReviews","appBookings"})
     private AppUser appUser;
 
     @Column(name="review_date")
@@ -45,7 +45,7 @@ public class AppReview {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "property_id")
-    @JsonIgnoreProperties({"appUser","appReviews"})
+    @JsonIgnoreProperties({"appUser","appReviews","appBookings"})
     private AppProperty appProperty;
 
 

@@ -1,5 +1,6 @@
 package com.TDD.ABnB.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -62,8 +63,9 @@ public class AppUser implements Serializable {
     @OneToMany(targetEntity = AppReview.class, cascade = CascadeType.ALL, mappedBy = "appUser")
     private Set<AppReview> appReviews=new HashSet<AppReview>();
 
-    @OneToMany
-    private Collection<AppBooking> appBookings;
+    @OneToMany(targetEntity = AppBooking.class, cascade = CascadeType.ALL, mappedBy = "appUser")
+    @JsonIgnoreProperties({"appUser"})
+    private Set<AppBooking> appBookings= new HashSet<AppBooking>();
 
     @OneToMany
     private Collection<AppInvoice> appInvoices;

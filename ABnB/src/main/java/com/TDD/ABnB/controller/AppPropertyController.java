@@ -34,7 +34,7 @@ public class AppPropertyController {
         return res;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/house/{id}")
     public ResponseEntity<AppProperty> showProperty(@PathVariable("id") Long id) {
         AppProperty appProperty= appPropertyService.findById(id);
         ResponseEntity<AppProperty> res=new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
@@ -68,6 +68,13 @@ public class AppPropertyController {
         return res;
     }
 
+    @PostMapping("/find-by-address")
+    public ResponseEntity<AppUser> findByAdress(@RequestBody AppProperty appProperty) {
+        ResponseEntity<AppUser> res=new ResponseEntity<AppUser>(new AppUser(), HttpStatus.ACCEPTED);
+        return res;
+    }
+
+
     @PatchMapping()
     public ResponseEntity<AppUser> updatePropertyStatus(@RequestBody AppProperty appProperty) {
         AppProperty appProperty1= appPropertyService.findById(appProperty.getId());
@@ -80,14 +87,6 @@ public class AppPropertyController {
         return res;
     }
 
-
-    @PutMapping("/{id}")
-    public ResponseEntity<AppProperty> updateProperty(@PathVariable("id") Long id, @RequestBody AppProperty appProperty) {
-        appProperty.setId(id);
-        appPropertyService.save(appProperty);
-        ResponseEntity<AppProperty> res=new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
-        return res;
-    }
 
     @DeleteMapping("/{id}")
     public void deleteProperty(@PathVariable("id") Long id ) {
