@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -29,6 +31,8 @@ public class AppUser implements Serializable {
     private String name;
 
     @NotNull
+    @NotBlank
+    @NotEmpty
     @Column(name="user_password")
     private String password;
 
@@ -36,12 +40,18 @@ public class AppUser implements Serializable {
     private String avatar;
 
     @NotNull
+    @NotBlank
+    @NotEmpty
     @Column(name="user_email")
     private String email;
 
+    @NotBlank
+    @NotEmpty
     @Column(name="user_address")
     private String address;
 
+    @NotBlank
+    @NotEmpty
     @Column(name="user_realname")
     private String realName;
 
@@ -67,7 +77,6 @@ public class AppUser implements Serializable {
 
     @OneToMany(targetEntity = AppProperty.class, cascade = CascadeType.ALL, mappedBy = "appUser")
     private Set<AppProperty> appProperties=new HashSet<AppProperty>();
-
 
 
 }

@@ -67,7 +67,7 @@ public class AppBookingController {
             boolean checkInDateValid = checkInDate.after(checkOutDateEx);
             boolean checkOutDateValid = checkInDate.after(checkInDateEx);
 
-            if ((!bookingDateValid) && ((!checkInDateValid) || (!checkOutDateValid))) {
+            if ((!bookingDateValid) && ((checkInDateValid) || (checkOutDateValid))) {
                 throw new DuplilcateUserException("Booking unavailable");
             }
         }
@@ -94,7 +94,7 @@ public class AppBookingController {
         LocalDate localDate = LocalDate.parse(appBooking.getCheckinDate(), formatter);
         Period period = Period.between(localDate, java.time.LocalDate.now());
         System.out.println(period.getDays());
-        if (period.getDays() <= 1) {
+        if (period.getDays() >= -1) {
             throw new DuplilcateUserException("Cannot cancel booking this late");
         }
         AppUser appUser = appUserService.findById(appBooking.getAppUser().getId());

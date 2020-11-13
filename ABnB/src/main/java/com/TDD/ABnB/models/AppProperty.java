@@ -1,18 +1,11 @@
 package com.TDD.ABnB.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.*;
+import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.validation.constraints.*;
+import java.util.*;
 
 @Entity
 @Table(name = "property")
@@ -27,31 +20,39 @@ public class AppProperty {
     private Long id;
 
     @NotNull
+    @NotBlank
+    @NotEmpty
     @Column(name="property_name")
     private String name;
 
     @NotNull
+    @NotBlank
+    @NotEmpty
     @Column(name="property_status")
     private String status;
 
     @NotNull
+    @NotBlank
+    @NotEmpty
     @Column(name="property_type")
     private String type;
 
 
-    @NotNull
     @Column(name="property_bedroom")
     private int bedroomNum;
 
-    @NotNull
     @Column(name="property_bathroom")
     private int bathroomNum;
 
     @NotNull
+    @NotBlank
+    @NotEmpty
     @Column(name="property_address")
     private String address;
 
     @NotNull
+    @NotBlank
+    @NotEmpty
     @Column(name="property_description")
     private String description;
 
@@ -93,4 +94,5 @@ public class AppProperty {
     @OneToMany(targetEntity = AppImage.class, cascade = CascadeType.ALL, mappedBy = "appProperty")
     @JsonIgnoreProperties({"appProperty"})
     private List<AppImage> appImages;
+
 }
