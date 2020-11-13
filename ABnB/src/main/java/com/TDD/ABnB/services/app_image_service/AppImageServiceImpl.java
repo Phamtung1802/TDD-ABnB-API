@@ -1,9 +1,8 @@
 package com.TDD.ABnB.services.app_image_service;
 
 import com.TDD.ABnB.models.AppImage;
-import com.TDD.ABnB.models.AppInvoice;
+import com.TDD.ABnB.models.AppProperty;
 import com.TDD.ABnB.repositories.AppImageRepository;
-import com.TDD.ABnB.repositories.AppInvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +28,12 @@ public class AppImageServiceImpl implements AppImageService{
     }
 
     @Override
-    public void delete(AppImage appImage) {
-        appImageRepository.delete(appImage);
+    public void delete(Long id) {
+        appImageRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<AppImage> findAllByAppProperty(AppProperty appProperty) {
+        return appImageRepository.findAllByAppProperty(appProperty);
     }
 }

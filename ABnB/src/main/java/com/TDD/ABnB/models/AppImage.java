@@ -1,6 +1,5 @@
 package com.TDD.ABnB.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,13 +18,12 @@ public class AppImage {
     @Column(name="image_id")
     private Long id;
 
-    @Column(name="image_URL")
-    private String url;
+    @Column(name="image_name")
+    private String name;
 
 
     @ManyToOne
     @JoinColumn(name = "property_id")
-//    @JsonIgnore
     @JsonIgnoreProperties({"appUser","appReviews","appBookingSet","appInvoiceSet","appImages"})
     private AppProperty appProperty;
 

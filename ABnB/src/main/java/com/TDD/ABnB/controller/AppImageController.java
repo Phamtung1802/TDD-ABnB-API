@@ -5,9 +5,11 @@ import com.TDD.ABnB.services.app_image_service.AppImageService;
 import com.TDD.ABnB.services.app_property_service.AppPropertyService;
 import com.TDD.ABnB.services.app_user_service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/images")
@@ -26,36 +28,48 @@ public class AppImageController {
     @GetMapping()
     public ResponseEntity<Iterable<AppImage>> showListImage() {
         Iterable<AppImage> appImages=appImageService.findAll();
-        ResponseEntity<Iterable<AppImage>> res=new ResponseEntity<Iterable<AppImage>>(appImages, HttpStatus.ACCEPTED);
-        return res;
+        if (appImages == null) {
+            return new ResponseEntity<Iterable<AppImage>>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<Iterable<AppImage>>(HttpStatus.ACCEPTED);
+
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<AppImage> showImage(@PathVariable("id") Long id) {
         AppImage appImage= appImageService.findById(id);
-        ResponseEntity<AppImage> res=new ResponseEntity<AppImage>(appImage, HttpStatus.ACCEPTED);
-        return res;
+        if (appImage == null) {
+            return new ResponseEntity<AppImage>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<AppImage>(HttpStatus.ACCEPTED);
     }
 
     @PostMapping()
-    public ResponseEntity<AppImage> createImage(@RequestBody AppImage appImage) {
-//      AppProperty appProperty = appPropertyService.findById(appImage.getAppProperty().getId());
+    public ResponseEntity<Void> createImage(@RequestBody AppImage appImage, UriComponentsBuilder uriBuilder) {
         appImageService.save(appImage);
-        ResponseEntity<AppImage> res=new ResponseEntity<AppImage>(appImage, HttpStatus.ACCEPTED);
-        return res;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(uriBuilder.path("/images/{id}").buildAndExpand(appImage.getId()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<AppImage> updateImage(@PathVariable("id") Long id, @RequestBody AppImage appImage) {
-        appImage.setId(id);
-        ResponseEntity<AppImage> res=new ResponseEntity<AppImage>(appImage, HttpStatus.ACCEPTED);
-        return res;
+      appImageService.findById(id);
+      if (appImage == null) {
+          return new ResponseEntity<AppImage>(HttpStatus.NOT_FOUND);
+      }
+      appImage.setName(appImage.getName());
+      return new ResponseEntity<AppImage>(HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteImage(@PathVariable("id") Long id) {
+    public ResponseEntity<AppImage> deleteImage(@PathVariable("id") Long id) {
         AppImage appImage = appImageService.findById(id);
-        appImageService.delete(appImage);
+        if (appImage == null) {
+            return new ResponseEntity<AppImage>(HttpStatus.NOT_FOUND);
+        }
+        appImageService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
