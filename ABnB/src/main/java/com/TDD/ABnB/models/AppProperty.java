@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.*;
 
 @Entity
@@ -23,31 +20,39 @@ public class AppProperty {
     private Long id;
 
     @NotNull
+    @NotBlank
+    @NotEmpty
     @Column(name="property_name")
     private String name;
 
     @NotNull
+    @NotBlank
+    @NotEmpty
     @Column(name="property_status")
     private String status;
 
     @NotNull
+    @NotBlank
+    @NotEmpty
     @Column(name="property_type")
     private String type;
 
 
-    @NotNull
     @Column(name="property_bedroom")
     private int bedroomNum;
 
-    @NotNull
     @Column(name="property_bathroom")
     private int bathroomNum;
 
     @NotNull
+    @NotBlank
+    @NotEmpty
     @Column(name="property_address")
     private String address;
 
     @NotNull
+    @NotBlank
+    @NotEmpty
     @Column(name="property_description")
     private String description;
 
