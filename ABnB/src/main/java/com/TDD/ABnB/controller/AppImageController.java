@@ -1,8 +1,9 @@
 package com.TDD.ABnB.controller;
 
-import com.TDD.ABnB.models.AppBooking;
 import com.TDD.ABnB.models.AppImage;
 import com.TDD.ABnB.services.app_image_service.AppImageService;
+import com.TDD.ABnB.services.app_property_service.AppPropertyService;
+import com.TDD.ABnB.services.app_user_service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,12 @@ public class AppImageController {
 
     @Autowired
     private AppImageService appImageService;
+
+    @Autowired
+    private AppPropertyService appPropertyService;
+
+    @Autowired
+    private AppUserService appUserService;
 
     @GetMapping()
     public ResponseEntity<Iterable<AppImage>> showListImage() {
@@ -32,6 +39,7 @@ public class AppImageController {
 
     @PostMapping()
     public ResponseEntity<AppImage> createImage(@RequestBody AppImage appImage) {
+//      AppProperty appProperty = appPropertyService.findById(appImage.getAppProperty().getId());
         appImageService.save(appImage);
         ResponseEntity<AppImage> res=new ResponseEntity<AppImage>(appImage, HttpStatus.ACCEPTED);
         return res;
@@ -49,4 +57,5 @@ public class AppImageController {
         AppImage appImage = appImageService.findById(id);
         appImageService.delete(appImage);
     }
+
 }

@@ -1,11 +1,13 @@
 package com.TDD.ABnB.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 @Entity
 @Table(name = "booking")
@@ -29,11 +31,10 @@ public class AppBooking {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties({"appInvoiceSet","appBookingSet","appReviews","appBookingSet","appProperties"})
+    @JsonIgnoreProperties({"appBookings","appProperties","appReviews"})
     private AppUser appUser;
 
     @ManyToOne()
     @JoinColumn(name = "property_id")
-    @JsonIgnoreProperties({"appInvoiceSet","appBookingSet","appReviews","appBookingSet","appImages"})
-    AppProperty appProperty;
-}
+    @JsonIgnoreProperties({"appInvoiceSet","appBookings","appReviews","appImages"})
+    AppProperty appProperty;}

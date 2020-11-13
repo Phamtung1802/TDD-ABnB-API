@@ -1,13 +1,16 @@
 package com.TDD.ABnB.services.app_property_service;
 
 import com.TDD.ABnB.models.AppProperty;
+import com.TDD.ABnB.models.AppUser;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface AppPropertyService {
-    Iterable<AppProperty> findAll();
+
+
+    List<AppProperty> findAll();
 
     AppProperty findById(Long id);
 
@@ -15,6 +18,8 @@ public interface AppPropertyService {
 
     void delete(AppProperty appProperty);
 
-    List<AppProperty> findAllByAddressContaining(String address);
+    Iterable<AppProperty> findAllByAddressContaining(String address);
+
+    List<AppProperty> findAllByAppUser(AppUser appUser);
 
 }

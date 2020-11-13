@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/property")
@@ -40,12 +39,13 @@ public class AppPropertyController {
 
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<AppProperty>> showHouseAddress(@RequestBody String address) {
-        List<AppProperty> appProperties = appPropertyService.findAllByAddressContaining(address);
-        ResponseEntity<List<AppProperty>> res = new ResponseEntity<List<AppProperty>>(appProperties, HttpStatus.ACCEPTED);
+    @GetMapping("/find-by-address")
+    public ResponseEntity<Iterable<AppProperty>> showHouseAddress(@RequestBody String address) {
+        Iterable<AppProperty> appProperties = appPropertyService.findAllByAddressContaining(address);
+        ResponseEntity<Iterable<AppProperty>> res = new ResponseEntity<Iterable<AppProperty>>(appProperties, HttpStatus.ACCEPTED);
         return res;
     }
+
 
 
 //    tinh nang da xong
@@ -65,7 +65,7 @@ public class AppPropertyController {
         appProperty = appPropertyService.save(appProperty);
         for (AppImage image: appProperty.getAppImages()
         ) {
-            image.setAppProperty(appProperty);
+           image.setAppProperty(appProperty);
         }
         appUser.getAppProperties().add(appProperty);
         appUserServiceImpl.save(appUser);
@@ -80,6 +80,16 @@ public class AppPropertyController {
         appProperty.setId(id);
         appPropertyService.save(appProperty);
         ResponseEntity<AppProperty> res=new ResponseEntity<AppProperty>(appProperty, HttpStatus.ACCEPTED);
+        return res;
+    }
+
+    @PatchMapping()
+    public ResponseEntity<AppUser> updatePropertyStatus(@RequestBody AppProperty appProperty) {
+        appPropertyService.findById(appProperty.getId());
+        appProperty.setStatus(appProperty.getStatus());
+        appPropertyService.save(appProperty);
+        AppUser appUser = appUserServiceImpl.findById(appProperty.getAppUser().getId());
+        ResponseEntity<AppUser> res = new ResponseEntity<>(appUser, HttpStatus.ACCEPTED);
         return res;
     }
 

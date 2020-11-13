@@ -1,14 +1,18 @@
 package com.TDD.ABnB.models;
 
-import com.fasterxml.jackson.annotation.*;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "property")
@@ -74,8 +78,8 @@ public class AppProperty {
     Set<AppInvoice> appInvoiceSet;
 
     @OneToMany(targetEntity = AppBooking.class, cascade = CascadeType.ALL, mappedBy = "appProperty")
-    @JsonIgnoreProperties("appProperty")
-    Set<AppBooking> appBookingSet = new HashSet<AppBooking>();
+    @JsonIgnoreProperties({"appProperty"})
+    private Set<AppBooking> appBookings= new HashSet<AppBooking>();
 
     @OneToMany(targetEntity = AppReview.class, cascade = CascadeType.ALL, mappedBy = "appProperty")
     private Set<AppReview> appReviews=new HashSet<AppReview>();
@@ -83,11 +87,10 @@ public class AppProperty {
     @NotNull
     @ManyToOne()
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties({"appProperties","appReviews"})
+    @JsonIgnoreProperties({"appProperties","appReviews","appBookings"})
     private AppUser appUser;
 
     @OneToMany(targetEntity = AppImage.class, cascade = CascadeType.ALL, mappedBy = "appProperty")
     @JsonIgnoreProperties({"appProperty"})
     private List<AppImage> appImages;
-
 }

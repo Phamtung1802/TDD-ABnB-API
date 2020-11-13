@@ -1,18 +1,14 @@
 package com.TDD.ABnB.models;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -62,14 +58,16 @@ public class AppUser implements Serializable {
     @OneToMany(targetEntity = AppReview.class, cascade = CascadeType.ALL, mappedBy = "appUser")
     private Set<AppReview> appReviews=new HashSet<AppReview>();
 
-    @OneToMany
-    private Collection<AppBooking> appBookings;
+    @OneToMany(targetEntity = AppBooking.class, cascade = CascadeType.ALL, mappedBy = "appUser")
+    @JsonIgnoreProperties({"appUser"})
+    private Set<AppBooking> appBookings= new HashSet<AppBooking>();
 
     @OneToMany
     private Collection<AppInvoice> appInvoices;
 
     @OneToMany(targetEntity = AppProperty.class, cascade = CascadeType.ALL, mappedBy = "appUser")
     private Set<AppProperty> appProperties=new HashSet<AppProperty>();
+
 
 
 }

@@ -1,7 +1,6 @@
 package com.TDD.ABnB.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,8 +8,6 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Set;
 
 @Entity
 @Table(name = "reviews")
@@ -34,7 +31,7 @@ public class AppReview {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnoreProperties({"appProperties","appReviews"})
+    @JsonIgnoreProperties({"appProperties","appReviews","appBookings"})
     private AppUser appUser;
 
     @Column(name="review_date")
@@ -45,9 +42,7 @@ public class AppReview {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "property_id")
-    @JsonIgnoreProperties({"appUser","appReviews"})
+    @JsonIgnoreProperties({"appUser","appReviews","appBookings"})
     private AppProperty appProperty;
-
-
 
 }
