@@ -68,8 +68,8 @@ public class AppBookingController {
         System.out.println(appUserServiceImpl.findById(appBooking.getAppUser().getId()).getAppBookings());
         System.out.println(appPropertyServiceImpl.findById(appBooking.getAppProperty().getId()).getAppBookings());
 
-        appBookingService.save(appBooking);
-        ResponseEntity<AppBooking> res=new ResponseEntity<AppBooking>(appBooking, HttpStatus.ACCEPTED);
+        AppBooking result=appBookingService.save(appBooking);
+        ResponseEntity<AppBooking> res=new ResponseEntity<AppBooking>(result, HttpStatus.ACCEPTED);
         return res;
     }
 
