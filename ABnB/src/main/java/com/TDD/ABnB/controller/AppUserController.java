@@ -122,6 +122,10 @@ public class AppUserController{
         AppUser userToUpdate= appUserService.findById(id);
         String editPassword = null;
         StringBuilder messageError=new StringBuilder("");
+        String oldPassword= bCryptPasswordEncoder.encode(appUser.getName());
+        if(!oldPassword.equals(userToUpdate.getPassword())){
+            throw new DuplilcateUserException("Old Password does not match");
+        }
         userToUpdate.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
         if (messageError.length() > 2) {
             throw new DuplilcateUserException(messageError.toString());
@@ -131,10 +135,10 @@ public class AppUserController{
         }catch (Exception e){
             e.printStackTrace();
         }
-        System.out.println(userToUpdate);
         ResponseEntity<AppUser> res = new ResponseEntity<AppUser>(userToUpdate, HttpStatus.ACCEPTED);
         return res;
     }
+
 
 //    @PatchMapping("edit-password/{id}")
 //    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
