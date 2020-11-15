@@ -4,6 +4,7 @@ import com.TDD.ABnB.models.AppImage;
 import com.TDD.ABnB.models.AppInvoice;
 import com.TDD.ABnB.models.AppProperty;
 import com.TDD.ABnB.models.AppUser;
+import com.TDD.ABnB.services.app_image_service.AppImageService;
 import com.TDD.ABnB.services.app_property_service.AppPropertyService;
 import com.TDD.ABnB.services.app_user_service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,10 @@ public class AppPropertyController {
 
     @Autowired
     private AppUserService appUserServiceImpl;
+
+    @Autowired
+    private AppImageService appImageServiceImpl;
+
 
 
     @GetMapping()
@@ -62,6 +67,7 @@ public class AppPropertyController {
         for (AppImage image: appProperty.getAppImages()
         ) {
             image.setAppProperty(appProperty);
+            appImageServiceImpl.save(image);
         }
         appUser.getAppProperties().add(appProperty);
         appUserServiceImpl.save(appUser);
