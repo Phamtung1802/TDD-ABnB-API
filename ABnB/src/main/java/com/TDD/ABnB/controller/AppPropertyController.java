@@ -10,6 +10,7 @@ import com.TDD.ABnB.services.app_user_service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -59,6 +60,7 @@ public class AppPropertyController {
 //    }as
 
     @PostMapping()
+    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
     public ResponseEntity<AppUser> createProperty(@RequestBody AppProperty appProperty) {
         AppUser appUser= appUserServiceImpl.findById(appProperty.getAppUser().getId());
         ArrayList<AppImage> images=new ArrayList<AppImage>();
@@ -84,6 +86,7 @@ public class AppPropertyController {
 
 
     @PatchMapping()
+    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
     public ResponseEntity<AppUser> updatePropertyStatus(@RequestBody AppProperty appProperty) {
         AppProperty appProperty1= appPropertyService.findById(appProperty.getId());
         System.out.println(appProperty1.getName());
@@ -97,6 +100,7 @@ public class AppPropertyController {
 
 
     @DeleteMapping("/{id}")
+    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
     public void deleteProperty(@PathVariable("id") Long id ) {
         AppProperty appProperty = appPropertyService.findById(id);
         appPropertyService.delete(appProperty);

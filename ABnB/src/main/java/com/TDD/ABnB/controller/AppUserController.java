@@ -32,7 +32,7 @@ public class AppUserController{
 
 
     @GetMapping("/users")
-    @Secured({"ROLE_USER"})
+    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
     public ResponseEntity<Iterable<AppUser>> showListUser() {
         Iterable<AppUser> appReviews = appUserService.findAll();
         for (AppUser user:appReviews
@@ -152,6 +152,7 @@ public class AppUserController{
     }
 
     @DeleteMapping("/{id}")
+    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
     public void deleteUser(@PathVariable("id") Long id) {
         AppUser appUser = appUserService.findById(id);
         appUserService.delete(appUser);

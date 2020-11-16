@@ -10,6 +10,7 @@ import com.TDD.ABnB.services.app_user_service.AppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -42,6 +43,7 @@ public class AppReviewController {
     }
 
     @PostMapping()
+    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
     public ResponseEntity<AppReview> createReview(@RequestBody AppReview appReview) {
         System.out.println("Reviews");
         AppUser appUser= appUserServiceImpl.findById(appReview.getAppUser().getId());
@@ -60,6 +62,7 @@ public class AppReviewController {
     }
 
     @PutMapping("/{id}")
+    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
     public ResponseEntity<AppReview> updateReview(@PathVariable("id") Long id, @RequestBody AppReview appReview) {
         appReview.setId(id);
         ResponseEntity<AppReview> res=new ResponseEntity<AppReview>(appReview, HttpStatus.ACCEPTED);
@@ -67,6 +70,7 @@ public class AppReviewController {
     }
 
     @DeleteMapping("/{id}")
+    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
     public void deleteReview(@PathVariable("id") Long id) {
         AppReview appReview = appReviewService.findById(id);
         appReviewService.delete(appReview);

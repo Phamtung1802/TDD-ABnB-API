@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.DateFormatter;
@@ -50,6 +51,7 @@ public class AppBookingController {
     }
 
     @PostMapping()
+    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
     public ResponseEntity<AppBooking> createBooking(@RequestBody AppBooking appBooking) throws ParseException, DuplilcateUserException {
         Date checkinDate= new SimpleDateFormat("yyyy-MM-dd").parse(appBooking.getCheckinDate());
         Date checkoutDate= new SimpleDateFormat("yyyy-MM-dd").parse(appBooking.getCheckoutDate());
@@ -65,9 +67,6 @@ public class AppBookingController {
                 throw new DuplilcateUserException("Booking unavailable");
             }
         }
-        System.out.println(appUserServiceImpl.findById(appBooking.getAppUser().getId()).getAppBookings());
-        System.out.println(appPropertyServiceImpl.findById(appBooking.getAppProperty().getId()).getAppBookings());
-
         AppBooking result=appBookingService.save(appBooking);
         ResponseEntity<AppBooking> res=new ResponseEntity<AppBooking>(result, HttpStatus.ACCEPTED);
         return res;
@@ -81,6 +80,7 @@ public class AppBookingController {
     }
 
     @DeleteMapping("/{id}")
+    @Secured({"ROLE_USER","ROLE_ADMIN","ROLE_RENTER"})
     public ResponseEntity<AppUser> deleteBooking(@PathVariable("id") Long id) throws DuplilcateUserException, ParseException {
         AppBooking appBooking =appBookingService.findById(id);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
