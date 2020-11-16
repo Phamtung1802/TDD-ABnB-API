@@ -20,6 +20,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @RestController
@@ -86,8 +87,8 @@ public class AppBookingController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate checkinDate= LocalDate.parse(appBooking.getCheckinDate(), formatter);
         Period period = Period.between(checkinDate, java.time.LocalDate.now());
-        System.out.println(period.getDays());
-        if(period.getDays()>=-1) {
+        System.out.println(ChronoUnit.DAYS.between(checkinDate, java.time.LocalDate.now()));
+        if(ChronoUnit.DAYS.between(checkinDate, java.time.LocalDate.now())>=-1) {
             throw new DuplilcateUserException("Cannot cancel booking this late");
         }
         AppUser user= appUserServiceImpl.findById(appBooking.getAppUser().getId());
