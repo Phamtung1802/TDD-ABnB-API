@@ -131,7 +131,11 @@ public class AppUserController{
         String editPassword = null;
         StringBuilder messageError=new StringBuilder("");
         String oldPassword= bCryptPasswordEncoder.encode(appUser.getName());
-        if(!oldPassword.equals(userToUpdate.getPassword())){
+        System.out.println(appUser.getName());
+        System.out.println();
+        System.out.println(oldPassword);
+        System.out.println(userToUpdate.getPassword());
+        if(!bCryptPasswordEncoder.matches(appUser.getName(),userToUpdate.getPassword())){
             throw new DuplilcateUserException("Old Password does not match");
         }
         userToUpdate.setPassword(bCryptPasswordEncoder.encode(appUser.getPassword()));
